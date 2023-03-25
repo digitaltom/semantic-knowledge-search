@@ -1,0 +1,5 @@
+#ask-form
+  = form_tag(knowledge_ask_path, {method: :get}) do
+    .form-group
+      %input.form-control#question{placeholder: "Your question", name: "question", value: @question&.question}
+      %button.btn.btn-primary{type: "submit"} Ask
