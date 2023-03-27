@@ -9,7 +9,7 @@ options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: #{ARGV[0]} [options]"
   opts.on('-q', '--question QUESTION', 'Provide question as parameter') { |v| options[:q] = v }
-  opts.on('-m', '--mode MODE', 'Mode [default|ruby]') { |v| options[:m] = v }
+  opts.on('-m', '--mode LANGUAGE', 'Answer in context of given programming language') { |v| options[:m] = v }
   opts.on('-d', '--debug', 'Debug mode') { |v| options[:d] = true }
   opts.on('-l', '--lang', 'Language') { |v| options[:l] = true }
 end.parse!
@@ -21,11 +21,11 @@ unless options[:q]
 end
 
 if options[:l]
-  prompt += "Please answer in #{options[:l]}"
+  prompt += "Answer in language #{options[:l]}."
 end
 
 if options[:m]
-  prompt += "Please answer with an example in Ruby programming language."
+  prompt += "Act as a programming guide. Answer in context of the #{options[:m]} programming language. "
 end
 
 
@@ -33,7 +33,7 @@ client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
 parameters = {
   model: "text-davinci-003",
   prompt: prompt,
-  temperature: 0.4, # low temperature = very high probability response
+  temperature: 0.3, # low temperature = very high probability response (0 to 1)
   max_tokens: 2000
 }
 
