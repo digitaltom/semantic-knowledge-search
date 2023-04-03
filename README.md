@@ -10,15 +10,3 @@
 - Get relevant articles with: `Question.new("question text").related_articles`
 - Create answer with: `Answer.new(question, article).generate`
 
-## CLI tool
-
-```
-> bin/openai_prompt.rb --help
-Usage: --help [options]
-    -q, --question QUESTION          Provide question as parameter
-    -m, --mode MODE                  Mode [default|ruby]
-    -d, --debug                      Debug mode
-    -l, --lang
-```
-
-![image](https://user-images.githubusercontent.com/582520/227728492-09befa05-ed2d-4122-ad17-16fb56f3612b.png)
