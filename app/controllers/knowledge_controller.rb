@@ -9,6 +9,7 @@ class KnowledgeController < ApplicationController
     if params[:article_id]
       @article = Article.find(params[:article_id])
     else
+      raise "No articles found" if @results.blank?
       @article = Article.find(@results.first[:article_id])
     end
     @answer = Answer.new(@question, @article).generate
