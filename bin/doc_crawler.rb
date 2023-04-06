@@ -7,8 +7,9 @@ require 'nokogiri'
 require 'cgi'
 
 URLS = [
-  "https://documentation.suse.com/subscription/suseconnect/html/SLE-suseconnect-visibility/article-suseconnect-visibility.html",
   "https://documentation.suse.com/container/kubevirt/html/SLE-kubevirt/article-kubevirt.html",
+  # scc
+  "https://documentation.suse.com/subscription/suseconnect/html/SLE-suseconnect-visibility/article-suseconnect-visibility.html",
   # rmt
   "https://documentation.suse.com/sles/15-SP4/html/SLES-all/rmt-overview.html",
   "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-rmt-installation.html",
@@ -76,10 +77,16 @@ URLS.each do |uri|
   begin
     file = URI::open(uri)
     doc = Nokogiri::HTML(file)
-    content = doc.css('.article').text.squeeze(" \n")
+    content = doc.css('.chapter').text.squeeze(" \n") if doc.at_css('.chapter')
+    content = doc.css('.article').text.squeeze(" \n") if doc.at_css('.article')
+    content = doc.css('.appendix').text.squeeze(" \n") if doc.at_css('.appendix')
     title = doc.css('title').text
 
-    File.open("knowledge/storage/training/docs/#{CGI.escape(title)}.txt", 'w') do |file|
+    if !content || content == ""
+      puts "No content found in uri, skipping..."
+      next
+    end
+    File.open(File.dirname(__FILE__) + "/../storage/training/docs/#{CGI.escape(title)}.txt", 'w') do |file|
       file.write(uri + "\n")
       file.write(title + "\n")
       file.write(content)

@@ -1,6 +1,35 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
 
-#ask-form {
-  max-width: 800;
+html,
+body,
+.intro {
+  height: 100%;
+  color: #fff;
 }
+
+a, a.visited, a:hover {
+  color: #fff;
+}
+
+.mask-custom {
+  background: rgba(24, 24, 16, .5);
+  border-radius: 2em;
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  background-clip: padding-box;
+  box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+}
+
+.bg-image {
+  background-image: url('bg/2.jpg');
+}
+
+.info, .info a, .info a.visited {
+  color: #ccc;
+}
+
+.card-body {
+  padding-bottom: 0px;
+}
+

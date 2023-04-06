@@ -10,28 +10,9 @@
     = stylesheet_link_tag "application", media: 'all', 'data-turbolinks-track' => 'reload'
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
 
-
   %body
 
+    %section.intro
+      .bg-image.h-100
 
-    %nav.navbar.navbar-dark.bg-dark.navbar-expand-lg
-      .navbar-brand.d-flex.flex-row.align-items-center
-        = link_to root_path, data: { turbolinks: false } do
-          .d-flex.flex-row.align-items-center
-            = image_tag('knowledge_geeko.png', width: 50, class: 'header-logo ml-2 mr-2', alt: 'SUSE')
-            Geeko Knowledge
-
-      .navbar-collapse.collapse.justify-content-lg-end
-        %ul.navbar-nav
-          %li.nav-item
-            = link_to 'https://www.suse.com', target: '_blank', class: 'nav-link' do
-              %i.eos-icons-outlined open_in_new
-              suse.com
-
-    .navbar-end-line
-      .header-end-line-persimmon
-      .header-end-line-green
-      .header-end-line-waterhole-blue
-      .header-end-line-mint
-
-    = yield
+        = yield

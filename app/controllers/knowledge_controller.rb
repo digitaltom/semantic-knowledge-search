@@ -1,9 +1,14 @@
 class KnowledgeController < ApplicationController
 
   def index
+    @kb_count = Article.where("url like '%support/kb%'").count
+    @doc_count = Article.where("url like '%documentation.suse.com%'").count
   end
 
   def ask
+    @kb_count = Article.where("url like '%support/kb%'").count
+    @doc_count = Article.where("url like '%documentation.suse.com%'").count
+
     @question = Question.new(params[:question])
     @results = @question.related_articles
     if params[:article_id]

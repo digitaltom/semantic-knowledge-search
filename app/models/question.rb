@@ -32,7 +32,7 @@ class Question
       similarity = similarity.round(2)
       results << {similarity: similarity, article_id: article.id}
     end
-    results.sort_by{|r| r[:similarity]}.reverse[0..5]
+    results.sort_by{|r| r[:similarity]}.reverse[0..4]
   end
 
 
