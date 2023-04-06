@@ -2,7 +2,7 @@
 
 # Knowledge - Search related articles based on openai embedding, and answer with GPT
 
-![image](https://user-images.githubusercontent.com/582520/227728425-a407d4a7-951d-4f32-8bc4-cb405919571c.png)
+![2023-04-07_01-07](https://user-images.githubusercontent.com/582520/230509975-049c6b73-ae39-4a5d-9d64-aa31de04a0e0.png)
 
 - Create small text files representing knowledge articles under `storage/training`.
   Example crawlers are `bin/doc_crawler.rb` and `bin/kb_crawler`.
