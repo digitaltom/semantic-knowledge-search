@@ -4,11 +4,11 @@
 
 ![2023-04-07_01-07](https://user-images.githubusercontent.com/582520/230509975-049c6b73-ae39-4a5d-9d64-aa31de04a0e0.png)
 
-- Create small text files representing knowledge articles under `storage/training`.
-  Example crawlers are `bin/doc_crawler.rb` and `bin/kb_crawler`.
-  Format is: First line uri, second line title, third ff. content.
-- Import articles with openai embedding vectors with:
-  `Article.import_all(reindex: false)` (imports all from `storage/training/**/*.txt`) into sqlite.
+- Import articles with and create openai embedding vectors with:
+  - `rake log:info import:doc` (import all doc pages)
+  - `rake log:info import:doc[url]` (import page from url)
+  - `rake log:info import:kb` (import knowledge base articles)
+  - `Article.vectorize_all(reindex: false)` (vectorize articles)
 - Find relevant articles with: `Question.new("question text").related_articles`
 - Create answer with: `Answer.new(question, article).generate`
 

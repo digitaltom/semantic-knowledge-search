@@ -26,7 +26,7 @@ class Question
 
   def related_articles
     results = []
-    Article.find_each do |article|
+    Article.vectorized.find_each do |article|
       similarity = cosine_similarity(embedding, article.embedding) * 100
       similarity -= 2 if article.file =~ /kb/
       similarity = similarity.round(2)
