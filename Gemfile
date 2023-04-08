@@ -53,6 +53,7 @@ gem 'awesome_print'
 gem 'ruby-openai'
 gem 'nokogiri'
 gem 'cosine-similarity'
+gem 'rails_autolink'
 
 # Use Sass to process CSS
 # gem "sassc-rails"

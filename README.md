@@ -20,5 +20,6 @@ with `foreman start -f Procfile.dev`.
 
 
 * Build image: `DOCKER_BUILDKIT=1 docker build -t ghcr.io/digitaltom/knowledge .`
-* Run image: `docker run -ti --network=host --rm -e SECRET_KEY_BASE=<random_secret_key> -e OPENAI_API_KEY=<key> -v <path to storage/training>:/rails/storage/training -v <path to roduction.sqlite3>:/rails/db/production.sqlite3 ghcr.io/digitaltom/knowledge:latest`
+* Run image: `podman run -ti --network=host --rm -e SECRET_KEY_BASE=<random_secret_key> -e OPENAI_API_KEY=<key> -v <path to storage/training>:/rails/storage/training -v <path to roduction.sqlite3>:/rails/db/production.sqlite3 ghcr.io/digitaltom/knowledge:latest`
+* Exec into container: `podman exec knowledge /bin/bash`
 
