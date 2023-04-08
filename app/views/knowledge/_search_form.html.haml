@@ -1,14 +1,14 @@
 .mask.d-flex.align-items-center
   .container
-    .card.mask-custom.m-5.p-3.mb-0.mt-3
+    .card.mask-custom.m-lg-4.m-md-3.m-sm-1.p-lg-3.p-md-2.p-sm-1.mb-0.mt-2
       .card-body
         = form_tag(knowledge_ask_path, {method: :get}) do
           .row.justify-content-left
-            .col-md-10.mb-6.mb-md-0
-              #basic.form-outline.form-white
-                %input#form1.form-control.form-control-lg{placeholder: @question&.question || "Ask the SUSE Geeko", name: "question"}
-            .col-md-2
-              %input.btn.btn-outline-success.btn-lg{:type => "submit", :value => "Search"}
+            .col-8
+              .form-outline.form-white
+                %input#form1.form-control.form-control-lg{placeholder: @question&.question || "Ask the SUSE Geeko", name: "question", value: @question&.question}
+            .col-auto.ps-0
+              %input.btn.btn-success.btn-lg{:type => "submit", :value => "Search"}
         .info.m-2
           = "Geeko has insights into #{@kb_count} SUSE Knowledge Base articles and #{@doc_count} SUSE Documentation pages."
           %br

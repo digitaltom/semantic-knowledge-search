@@ -23,3 +23,7 @@ with `foreman start -f Procfile.dev`.
 * Run image: `podman run -ti --network=host --rm -e SECRET_KEY_BASE=<random_secret_key> -e OPENAI_API_KEY=<key> -v <path to storage/training>:/rails/storage/training -v <path to roduction.sqlite3>:/rails/db/production.sqlite3 ghcr.io/digitaltom/knowledge:latest`
 * Exec into container: `podman exec knowledge /bin/bash`
 
+### Related articles
+
+* https://simonwillison.net/2023/Jan/13/semantic-search-answers/
+

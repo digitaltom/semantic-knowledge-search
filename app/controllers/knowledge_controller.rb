@@ -1,3 +1,5 @@
+require 'benchmark'
+
 class KnowledgeController < ApplicationController
 
   def index
@@ -10,7 +12,10 @@ class KnowledgeController < ApplicationController
     @doc_count = Article.doc.count
 
     @question = Question.new(params[:question])
-    @results = @question.related_articles
+    time = Benchmark.measure {
+      @results = @question.related_articles
+    }
+    logger.debug("Finding related articles took #{time}")
     if params[:article_id]
       @article = Article.find(params[:article_id])
     else
