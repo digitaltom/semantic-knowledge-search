@@ -194,7 +194,7 @@ GEM
     reline (0.3.3)
       io-console (~> 0.5)
     rexml (3.2.5)
-    ruby-openai (3.5.0)
+    ruby-openai (3.7.0)
       httparty (>= 0.18.1)
     rubyzip (2.3.2)
     selenium-webdriver (4.8.1)
