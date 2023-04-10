@@ -15,14 +15,17 @@ class KnowledgeController < ApplicationController
     time = Benchmark.measure {
       @results = @question.related_articles
     }
-    logger.debug("Finding related articles took #{time}")
+    logger.debug("Finding related articles took #{time.total.round(2)}s")
     if params[:article_id]
       @article = Article.find(params[:article_id])
     else
       raise "No articles found" if @results.blank?
       @article = Article.find(@results.first[:article_id])
     end
-    @answer = Answer.new(@question, @article).generate
+    time = Benchmark.measure {
+      @answer = Answer.new(@question, @article).generate
+    }
+    logger.debug("Generating answer took #{time.total.round(2)}s")
   end
 
 end
