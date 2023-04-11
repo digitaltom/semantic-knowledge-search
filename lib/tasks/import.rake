@@ -68,46 +68,33 @@ namespace :import do
       "https://documentation.suse.com/sle-public-cloud/all/html/public-cloud/app-public-cloud-support.html"
     ]
     urls = URLS
-    URLS = [args[:path]] if args[:path]
-
-    URLS.each do |uri|
-      begin
-        file = URI::open(uri)
-        doc = Nokogiri::HTML(file)
-        content = doc.css('.chapter').text.squeeze(" \n") if doc.at_css('.chapter')
-        content = doc.css('.article').text.squeeze(" \n") if doc.at_css('.article')
-        content = doc.css('.appendix').text.squeeze(" \n") if doc.at_css('.appendix')
-        title = doc.css('title').text
-        if !content || content == ""
-          puts "No content found in uri, skipping..."
-          next
-        end
-        content = content.split[0..1200].join(' ')
-        Article.find_or_initialize_by(url: uri).tap do |a|
-          a.update!(title: title, text: content, indexed_at: DateTime.now)
-        end
-        puts "Stored article '#{title}' from " + uri
-      rescue OpenURI::HTTPError => e
-        puts "no doc at " + uri
-      end
-    end
-    Article.where(url: URLS).each(&:vectorize)
+    urls = [args[:path]] if args[:path]
+    import_from_urls(urls)
   end
 
   desc 'import knowledge base articles'
   task :kb, [:path] => [:environment] do |_, args|
-    KB_IDS = (21_034..21_034).map{|id| id.to_s.rjust(9, '0')}
+    KB_IDS = (20_000..21_034).map{|id| id.to_s.rjust(9, '0')}
+    urls = KB_IDS.map{|id| "https://www.suse.com/support/kb/doc/?id=#{id}"}
+    urls = [args[:path]] if args[:path]
+    import_from_urls(urls)
+  end
 
-    KB_IDS.each do |id|
 
-      #id = id.to_s.rjust(9, '0')
-      uri = "https://www.suse.com/support/kb/doc/?id=#{id}"
+  private
 
+  def import_from_urls(urls)
+    urls.each do |uri|
       begin
         file = URI::open(uri)
         doc = Nokogiri::HTML(file)
-        content = doc.css('#content').text.squeeze(" \n")
+        content = doc.css('#content').text.squeeze(" \n") if doc.at_css('#content')
+        content = doc.css('.chapter').text.squeeze(" \n") if doc.at_css('.chapter')
+        content = doc.css('.article').text.squeeze(" \n") if doc.at_css('.article')
+        content = doc.css('.appendix').text.squeeze(" \n") if doc.at_css('.appendix')
+
         title = doc.css('#content h1').text
+        title = doc.css('title').text if title = ""
 
         if !content || content == ""
           puts "No content found in uri, skipping..."
@@ -117,12 +104,12 @@ namespace :import do
         Article.find_or_initialize_by(url: uri).tap do |a|
           a.update!(title: title, text: content, indexed_at: DateTime.now)
         end
-        puts "Stored kb '#{title}' from " + uri
+        puts "Stored '#{title}' from " + uri
       rescue OpenURI::HTTPError => e
-        puts "No KB at " + uri
+        puts "No page at " + uri
       end
     end
-    urls = KB_IDS.map{|id| "https://www.suse.com/support/kb/doc/?id=#{id}"}
     Article.where(url: urls).each(&:vectorize)
   end
+
 end
