@@ -2,5 +2,4 @@
   .container
     .card.mask-custom.m-lg-4.m-md-3.m-sm-1.p-lg-3.p-md-2.p-sm-1.mb-0.mt-2
       %ul.card-body
-        - @articles.each do |a|
-          %li= link_to a.title, a
+        = @article.title

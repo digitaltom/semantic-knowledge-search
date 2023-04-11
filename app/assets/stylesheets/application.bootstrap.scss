@@ -22,7 +22,18 @@ a, a.visited, a:hover {
 }
 
 .bg-image {
-  background-image: url('bg/3.jpg');
+  background-image: url('bg/2.jpg');
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* Smaller image for small screens */
+@media only screen and (max-width: 767px) {
+  body {
+    background-image: url('bg/2_small.jpg');
+  }
 }
 
 .info, .info a, .info a.visited {

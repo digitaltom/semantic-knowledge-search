@@ -11,6 +11,6 @@ Rails.application.routes.draw do
   post 'knowledge/ask', to: 'knowledge#ask'
   get 'knowledge/ask', to: 'knowledge#ask'
 
-  get 'articles', to: 'articles#index'
+  resources :articles, only: %i[index show]
 
 end
