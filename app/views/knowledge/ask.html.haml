@@ -10,7 +10,7 @@
 
           %ol
             - @results.each do |r|
-              - article = Article.find(r[:article_id])
+              - article = Article.find(r['article_id'])
               %li= link_to article.title, article.url
               /= "(#{r[:similarity]}%)"
               /%small= link_to "(use this)", knowledge_ask_path(question: @question.question, article_id: r[:article_id])

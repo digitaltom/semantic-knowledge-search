@@ -29,6 +29,7 @@ class Article < ApplicationRecord
       return
       # raise Exception.new
     end
+    # embedding size from openai is 1536
     self.embedding = response['data'][0]['embedding']
     self.vectorized_at = DateTime.now
     self.save!

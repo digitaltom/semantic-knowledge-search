@@ -9,8 +9,7 @@
             .input-group.input-group-lg
 
               .form-floating
-                %textarea.form-control.form-control-lg.input-lg#search{type: 'search',placeholder: "Ask the SUSE Geeko"}
-                  = @question&.question
+                %input.form-control.form-control-lg.input-lg#search{type: 'search',placeholder: "Ask the SUSE Geeko", name: 'q', value: @question&.question}
                 %label.text-muted{for: "search"}
                   Ask the SUSE Geeko
 
