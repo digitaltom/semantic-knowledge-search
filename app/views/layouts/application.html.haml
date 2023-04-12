@@ -1,5 +1,5 @@
 !!!
-%html{lang: 'en'}
+%html.h-100{lang: 'en'}
   %head
     %title= content_for?(:title) ? yield(:title) : 'Geeko Knowledge'
     %meta{ content: 'width=device-width, initial-scale=1', name: 'viewport' }
@@ -10,9 +10,19 @@
     = stylesheet_link_tag "application", media: 'all', 'data-turbolinks-track' => 'reload'
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
 
-  %body.bg-image
+  %body.bg-image.d-flex.flex-column.h-100
 
-    %section.intro
+    %main.flex-shrink-0
 
       = yield
+
+    %footer.footer.mt-auto.py-3
+      .mask-footer.container.text-center.info
+        - #Icons: https://icons.getbootstrap.com/
+        %i.bi.bi-github
+        = link_to 'SUSE knowledge project', 'https://github.com/digitaltom/knowledge'
+        |
+        %i.bi.bi-images
+        = "Photos by "
+        = link_to("Unsplash", "https://unsplash.com/s/photos/chameleon?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText")
 

@@ -1,5 +1,5 @@
-.mask.container
-  .card.mask-custom.m-lg-4.m-md-3.m-sm-1.p-lg-3.p-md-2.p-sm-1.mb-0.mt-2
+.container
+  .card.mask.m-lg-4.m-md-3.m-sm-1.p-lg-3.p-md-2.p-sm-1.mb-0.mt-2
     .card-body.text-center.pt-2
 
       .row.mb-2
@@ -7,10 +7,15 @@
 
           = form_tag(knowledge_ask_path, {method: :get}) do
             .input-group.input-group-lg
-              %input#search.form-control.form-control-lg.input-lg{type: 'search', placeholder: "Ask the SUSE Geeko", name: "question", value: @question&.question}
+
+              .form-floating
+                %textarea.form-control.form-control-lg.input-lg#search{type: 'search',placeholder: "Ask the SUSE Geeko"}
+                  = @question&.question
+                %label.text-muted{for: "search"}
+                  Ask the SUSE Geeko
+
               %button.btn.btn-success.btn-lg.input-group-btn{type: "submit"}
                 %i.bi.bi-search
-
 
       .info.m-2
         = "Geeko has insights into #{@kb_count} SUSE Knowledge Base articles and #{@doc_count} SUSE Documentation pages."

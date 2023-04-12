@@ -1,10 +1,7 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
 
-html,
-body,
-.intro {
-  height: 100%;
+body {
   color: #fff;
 }
 
@@ -12,9 +9,18 @@ a, a.visited, a:hover {
   color: #fff;
 }
 
-.mask-custom {
+.mask {
   background: rgba(24, 24, 16, .5);
   border-radius: 2em;
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  background-clip: padding-box;
+  box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+}
+
+.mask-footer {
+  background: rgba(24, 24, 16, .35);
+  border-radius: 1em;
   backdrop-filter: blur(15px);
   border: 2px solid rgba(255, 255, 255, 0.05);
   background-clip: padding-box;
@@ -31,8 +37,7 @@ a, a.visited, a:hover {
 
 /* Smaller image for small screens */
 @media only screen and (max-width: 767px) {
-  body {
-    background-image: url('bg/2_small.jpg');
+  .bg-image {
   }
 }
 
@@ -44,3 +49,4 @@ a, a.visited, a:hover {
   padding-bottom: 0px;
 }
 
+/* view-source:https://getbootstrap.com/docs/5.0/examples/sticky-footer/*/
