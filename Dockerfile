@@ -21,8 +21,11 @@ RUN gem update --system --no-document && \
 FROM base as build
 
 # Install packages needed to build gems and node modules
+# Last line are dependencies for sqlite vss0
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential curl git node-gyp pkg-config python-is-python3 vim
+    apt-get install --no-install-recommends -y build-essential curl git \
+                    node-gyp pkg-config python-is-python3 vim && \
+    apt-get install --no-install-recommends -y libgomp1 libblas3 liblapack3
 
 # Install JavaScript dependencies
 ARG NODE_VERSION=16.19.1
