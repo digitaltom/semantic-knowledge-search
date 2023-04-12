@@ -10,10 +10,9 @@
     = stylesheet_link_tag "application", media: 'all', 'data-turbolinks-track' => 'reload'
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
 
-  %body
+  %body.bg-image
 
     %section.intro
-      .bg-image.h-100
 
-        = yield
+      = yield
 

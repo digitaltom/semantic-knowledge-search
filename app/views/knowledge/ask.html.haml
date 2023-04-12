@@ -16,8 +16,9 @@
               /%small= link_to "(use this)", knowledge_ask_path(question: @question.question, article_id: r[:article_id])
 
     .col-md-6.mb-6.mb-md-0
-      .card.mask-custom.m-lg-4.m-md-3.m-sm-1.p-lg-3.p-md-2.p-sm-1.mt-3.ms-3.mb-0
+      .card.mask-custom.m-lg-4.m-md-3.m-sm-1.p-lg-3.p-md-2.p-sm-1.me-3.mb-0
         .card-body
           %h4 What does the Geeko say?
-
+          %i.bi.bi-quote
           = auto_link(@answer)
+          %i.bi.bi-quote
