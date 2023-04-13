@@ -22,6 +22,8 @@ class Question
       Rails.logger.error(response.inspect)
     end
     @embedding = response['data'][0]['embedding']
+    Rails.logger.info("Generated embedding for '#{@question}' (#{@embedding.size} vectors)")
+    @embedding
   end
 
   def related_articles
@@ -32,7 +34,7 @@ class Question
       similarity = similarity.round(2)
       results << {'similarity' => similarity, 'article_id' => article.id}
     end
-    results.sort_by{|r| r[:similarity]}.reverse[0..4]
+    results.sort_by{|r| r['similarity']}.reverse[0..4]
   end
 
   def related_articles2
@@ -47,7 +49,7 @@ class Question
         ActiveRecord::Base.connection.execute('select vss_version()').to_s)
     end
 
-#byebug
+    #byebug
     ActiveRecord::Base.connection.execute("select rowid as article_id, distance from vss_articles where vss_search(embedding, '#{embedding}') limit 5")
   end
 

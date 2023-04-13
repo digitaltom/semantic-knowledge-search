@@ -20,7 +20,7 @@
         = "Geeko has insights into #{@kb_count} SUSE Knowledge Base articles and #{@doc_count} SUSE Documentation pages."
         %br
         = "Try it out! Ask him about "
-        %i= link_to "'How to use Yast?'", knowledge_ask_path(question: 'How to use Yast?')
+        %i= link_to "'How to use Yast?'", knowledge_ask_path(q: 'How to use Yast?')
         = " or "
-        %i= link_to "'How can I see inactive systems in SCC?'", knowledge_ask_path(question: 'How can I see inactive systems in SCC?')
+        %i= link_to "'How can I see inactive systems in SCC?'", knowledge_ask_path(q: 'How can I see inactive systems in SCC?')
         = "."
