@@ -23,7 +23,7 @@ FROM base as build
 # Install packages needed to build gems and node modules
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential curl git \
-                    node-gyp pkg-config python-is-python3
+                    node-gyp pkg-config python-is-python3 libgomp1 libblas3 liblapack3 vim
 
 # Install JavaScript dependencies
 ARG NODE_VERSION=16.19.1
