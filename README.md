@@ -2,7 +2,7 @@
 
 # Knowledge - Search related articles based on openai embedding, and answer with GPT
 
-![2023-04-07_01-07](https://user-images.githubusercontent.com/582520/230509975-049c6b73-ae39-4a5d-9d64-aa31de04a0e0.png)
+![2023-04-13_12-04](https://user-images.githubusercontent.com/582520/231726466-d4e54b1d-4c8b-4a33-9596-e8d27cadbfd3.png)
 
 - Import articles with and create openai embedding vectors with:
   - `rake log:info import:doc` (import all doc pages)
