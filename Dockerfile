@@ -21,11 +21,9 @@ RUN gem update --system --no-document && \
 FROM base as build
 
 # Install packages needed to build gems and node modules
-# Last line are dependencies for sqlite vss0
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential curl git \
-                    node-gyp pkg-config python-is-python3 vim && \
-    apt-get install --no-install-recommends -y libgomp1 libblas3 liblapack3
+                    node-gyp pkg-config python-is-python3
 
 # Install JavaScript dependencies
 ARG NODE_VERSION=16.19.1
@@ -64,8 +62,10 @@ RUN rm ./public/assets/application-*.js.gz
 FROM base
 
 # Install packages needed for deployment
+# Last line are dependencies for sqlite vss0
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y libsqlite3-0 && \
+    apt-get install --no-install-recommends -y libgomp1 libblas3 liblapack3 vim curl && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Run and own the application files as a non-root user for security

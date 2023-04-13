@@ -13,7 +13,7 @@ class KnowledgeController < ApplicationController
 
     @question = Question.new(params[:q])
     time = Benchmark.measure {
-      @results = @question.related_articles
+      @results = @question.related_articles2
     }
     logger.info("Finding related articles took #{time.total.round(2)}s")
     if params[:article_id]

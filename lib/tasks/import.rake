@@ -94,7 +94,7 @@ namespace :import do
         content = doc.css('.appendix').text.squeeze(" \n") if doc.at_css('.appendix')
 
         title = doc.css('#content h1').text
-        title = doc.css('title').text if title = ""
+        title = doc.css('title').text if title == ""
 
         if !content || content == ""
           puts "No content found in uri, skipping..."
@@ -109,7 +109,7 @@ namespace :import do
         puts "No page at " + uri
       end
     end
-    Article.where(url: urls).each(&:vectorize)
+    Article.where(url: urls).each(&:vectorize!)
   end
 
 end
