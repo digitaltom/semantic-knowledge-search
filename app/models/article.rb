@@ -8,7 +8,8 @@ class Article < ApplicationRecord
   scope :kb, -> { where("url like '%support/kb%'") }
   scope :doc, -> { where("url like '%documentation.suse.com%'") }
 
-  after_save :update_vss_articles
+  after_save :update_vss_article
+  after_destroy :destroy_vss_article
 
   def self.vectorize_all(reindex: false)
     articles = reindex ? all : not_vectorized
@@ -43,10 +44,15 @@ class Article < ApplicationRecord
     ActiveRecord::Base.connection.execute("select * from vss_articles where rowid = #{id}")
   end
 
-  def update_vss_articles
+  def update_vss_article
     ensure_vss0
     ActiveRecord::Base.connection.execute("delete from vss_articles where rowid = #{id}")
     ActiveRecord::Base.connection.execute("insert into vss_articles(rowid, embedding) values(#{id}, '#{embedding}')")
+  end
+
+  def destroy_vss_article
+    ensure_vss0
+    ActiveRecord::Base.connection.execute("delete from vss_articles where rowid = #{id}")
   end
 
 end

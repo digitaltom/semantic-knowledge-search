@@ -1,4 +1,4 @@
-[![Container build](https://github.com/digitaltom/knowledge/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/digitaltom/knowledge/pkgs/container/knowledge)
+[![Container build](https://github.com/digitaltom/semantic-knowledge-search/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/digitaltom/semantic-knowledge-search/pkgs/container/knowledge)
 
 # Semantic knowledge search
 
@@ -21,11 +21,12 @@ To use the [SQLite VSS](https://github.com/asg017/sqlite-vss) (SQLite Vector Sim
 
 To run the app locally, `cssbundling-rails` requires to run `yarn build:css --watch` in a second terminal next to `rails s`. For `jsbundling-rails`, you need to do the same with `yarn build --watch`. Those commands are combined in `Procfile.dev` and can be run with `foreman start -f Procfile.dev`.
 
-* Build image: `DOCKER_BUILDKIT=1 docker build -t ghcr.io/digitaltom/knowledge .`
-* Run image: `docker run -ti --network=host --rm -e SECRET_KEY_BASE=<random_secret_key> -e OPENAI_API_KEY=<key> -v <path to production.sqlite3>:/rails/db/production.sqlite3 ghcr.io/digitaltom/knowledge`
+* Build image: `DOCKER_BUILDKIT=1 docker build -t ghcr.io/digitaltom/semantic-knowledge-search .`
+* Run image: `docker run -ti --network=host --rm -e SECRET_KEY_BASE=<random_secret_key> -e OPENAI_API_KEY=<key> -v <path to production.sqlite3>:/rails/db/production.sqlite3 -name knowledge ghcr.io/digitaltom/semantic-knowledge-search`
 * Exec into container: `docker exec knowledge /bin/bash`
 
 ### Related articles
 
 * https://simonwillison.net/2023/Jan/13/semantic-search-answers/
+* [Metadata filtering in vector similarity search](https://www.pinecone.io/learn/vector-search-filtering/)
 
