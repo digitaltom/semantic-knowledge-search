@@ -1,24 +1,24 @@
 = render 'search_form'
 
-.align-items-center
-  .container.d-flex
-    .row
-      .col-md-6.col-sm-12
-        .card.mask.box
-          .card-body
-            %h4 Top 5 articles
 
-            %ol
-              - @results.each do |r|
-                - article = Article.find(r['article_id'])
-                %li= link_to article.title, article.url
-                /= "(#{r[:similarity]}%)"
-                /%small= link_to "(use this)", knowledge_ask_path(question: @question.question, article_id: r[:article_id])
+.container.d-flex.align-items-center
+  .row
+    .col-md-6.col-sm-12
+      .card.mask.box
+        .card-body
+          %h4 Top 5 articles
 
-      .col-md-6.col-sm-12
-        .card.mask.box
-          .card-body
-            %h4 What does the Geeko say?
-            %i.bi.bi-quote
-            = auto_link(@answer)
-            %i.bi.bi-quote
+          %ol
+            - @results.each do |r|
+              - article = Article.find(r['article_id'])
+              %li= link_to article.title, article.url
+              /= "(#{r[:similarity]}%)"
+              /%small= link_to "(use this)", knowledge_ask_path(question: @question.question, article_id: r[:article_id])
+
+    .col-md-6.col-sm-12
+      .card.mask.box
+        .card-body
+          %h4 What does the Geeko say?
+          %i.bi.bi-quote
+          = auto_link(@answer)
+          %i.bi.bi-quote
