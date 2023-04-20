@@ -8,10 +8,13 @@ class Answer
   end
 
   def generate
+
+    # Note: limiting the article text because of max context length of 4096 tokens (incl. the 400 from the response)
+    article_context = @article.text.split[0..900].join(' ')
+
     # Note: adding a '?' after the input, so the 'completions' endpoint doesn't try to
     # complete the question.
-    # Note: limiting the article text because of max token length of 4096
-    Rails.logger.info "Article has #{@article.text.split.size} words"
+     Rails.logger.info "Article has #{@article.text.split.size} words"
     prompt =
     "You are an AI assistant. You work for the SUSE Customer Center team at SUSE which is a open source operating system.
     You will be asked questions from a customer and will answer in a helpful and friendly manner.
@@ -20,7 +23,7 @@ class Answer
     from the article.
     If the users question is not answered by the article you will respond with 'I'm sorry Dave, I don't know.'
     [Article]
-    #{@article.text.split[0..1500].join(' ')}
+    #{article_context}
     [Question]
     #{@question.question}?"
     
@@ -32,10 +35,14 @@ class Answer
         model: "text-davinci-003", # davinci: 1 token per minute
         prompt: prompt,
         temperature: 0.2, # low temperature = very high probability response
-        max_tokens: 400,
+        max_tokens: 300,
       }
     )
-    response['error'] || response['choices'][0]['text'].lstrip.sub('Answer: ', '')
+    unless response['choices']
+      Rails.logger.error(response.inspect)
+      raise Exception.new("Generating answer failed: " + response['error'].inspect)
+    end
+    response['choices'][0]['text'].lstrip.sub('Answer: ', '')
   end
 
 end
