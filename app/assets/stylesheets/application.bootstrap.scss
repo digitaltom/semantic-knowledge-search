@@ -35,6 +35,28 @@ a, a.visited, a:hover {
   background-size: cover;
 }
 
+/* bootstrap breakpoints:
+   https://getbootstrap.com/docs/5.0/layout/breakpoints/
+
+    X-Small   None  <576px
+    Small   sm  ≥576px
+    Medium  md  ≥768px
+    Large   lg  ≥992px
+    Extra large   xl  ≥1200px
+    Extra extra large   xxl   ≥1400px
+*/
+
+.box {
+  @extend .m-lg-3;
+  @extend .m-md-2;
+  @extend .m-sm-1;
+  @extend .m-1;
+  @extend .p-lg-3;
+  @extend .p-md-2;
+  @extend .p-sm-1;
+  @extend .p-1;
+}
+
 /* Smaller image for small screens */
 @media only screen and (max-width: 767px) {
   .bg-image {
@@ -48,5 +70,3 @@ a, a.visited, a:hover {
 .card-body {
   padding-bottom: 0px;
 }
-
-/* view-source:https://getbootstrap.com/docs/5.0/examples/sticky-footer/*/
