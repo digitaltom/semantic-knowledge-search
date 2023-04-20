@@ -8,7 +8,6 @@ class Answer
   end
 
   def generate
-
     # Note: limiting the article text because of max context length of 4096 tokens (incl. the 400 from the response)
     article_context = @article.text.split[0..900].join(' ')
 
@@ -30,14 +29,18 @@ class Answer
 		openai = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
     # rate limits: https://platform.openai.com/docs/guides/rate-limits/overview
     # playground: https://platform.openai.com/playground
-    response = openai.completions(
-      parameters: {
-        model: "text-davinci-003", # davinci: 1 token per minute
-        prompt: prompt,
-        temperature: 0.2, # low temperature = very high probability response
-        max_tokens: 300,
-      }
-    )
+
+    response = Rails.cache.fetch("#{@question.question}/#{@article.id}", expires_in: 48.hours) do
+      openai.completions(
+        parameters: {
+          model: "text-davinci-003", # davinci: 1 token per minute
+          prompt: prompt,
+          temperature: 0.2, # low temperature = very high probability response
+          max_tokens: 300,
+        }
+      )
+    end
+
     unless response['choices']
       Rails.logger.error(response.inspect)
       raise Exception.new("Generating answer failed: " + response['error'].inspect)
