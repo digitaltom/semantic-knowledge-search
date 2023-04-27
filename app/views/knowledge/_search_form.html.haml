@@ -5,11 +5,11 @@
       .row
         .col-lg-12
 
-          = form_tag(knowledge_articles_path, {method: :get, data: { turbo_frame: "top_articles", turbo: true }}) do
+          = form_tag(root_path, {method: :get}) do
             .input-group.input-group-lg
 
               .form-floating
-                %input.form-control.form-control-lg.input-lg#search{type: 'search',placeholder: "Ask the SUSE Geeko", name: 'q', value: @question&.question}
+                %input.form-control.form-control-lg.input-lg#search{type: 'search',placeholder: "Ask the SUSE Geeko", name: 'q', value: @question}
                 %label.text-muted{for: "search"}
                   Ask the SUSE Geeko
 
@@ -20,7 +20,7 @@
         = "Geeko has insights into #{@kb_count} SUSE Knowledge Base articles and #{@doc_count} SUSE Documentation pages."
         %br
         = "Try it out! Ask him about "
-        %i= link_to "'How to use Yast?'", knowledge_ask_path(q: 'How to use Yast?')
+        %i= link_to "'How to use Yast?'", root_path(q: 'How to use Yast?')
         = " or "
-        %i= link_to "'How can I see inactive systems in SCC?'", knowledge_ask_path(q: 'How can I see inactive systems in SCC?')
+        %i= link_to "'How can I see inactive systems in SCC?'", root_path(q: 'How can I see inactive systems in SCC?')
         = "."

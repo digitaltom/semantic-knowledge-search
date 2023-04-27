@@ -30,7 +30,7 @@ class Answer
     # rate limits: https://platform.openai.com/docs/guides/rate-limits/overview
     # playground: https://platform.openai.com/playground
 
-    response = Rails.cache.fetch("#{@question.question}/#{@article.id}", expires_in: 48.hours) do
+    response = Rails.cache.fetch("answer_#{@question.question}/#{@article.id}", expires_in: 48.hours) do
       openai.completions(
         parameters: {
           model: "text-davinci-003", # davinci: 1 token per minute
