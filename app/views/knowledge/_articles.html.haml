@@ -1,4 +1,4 @@
-= turbo_frame_tag("articles", src: knowledge_articles_path(q: @question), disabled: @question.blank?, class: "col-md-6 col-sm-12") do
+= turbo_frame_tag("articles", src: knowledge_articles_path(q: @question), disabled: @question.blank?, class: "col-md-6 col-sm-12 pe-1") do
   - if @results
     .card.mask.box
       .card-body
@@ -10,3 +10,19 @@
             %li= link_to article.title, article.url
             /= "(#{r[:similarity]}%)"
             /%small= link_to "(use this)", knowledge_ask_path(question: @question.question, article_id: r[:article_id])
+
+  - else # skeleton loader
+    .card.mask.box.loader
+      .card-body
+        %h4 Loading top 5 articles
+        %ol
+          %li
+            .skeleton.skeleton-text
+          %li
+            .skeleton.skeleton-text
+          %li
+            .skeleton.skeleton-text
+          %li
+            .skeleton.skeleton-text
+          %li
+            .skeleton.skeleton-text
