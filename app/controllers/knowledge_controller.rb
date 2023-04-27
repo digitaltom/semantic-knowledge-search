@@ -7,9 +7,19 @@ class KnowledgeController < ApplicationController
     @doc_count = Article.doc.count
   end
 
+  def articles
+    @question = Question.new(params[:q])
+    time = Benchmark.measure {
+      @results = @question.related_articles2
+    }
+    logger.info("Finding related articles took #{time.total.round(2)}s")
+  end
+
+  def answer
+
+  end
+
   def ask
-    @kb_count = Article.kb.count
-    @doc_count = Article.doc.count
 
     @question = Question.new(params[:q])
     time = Benchmark.measure {

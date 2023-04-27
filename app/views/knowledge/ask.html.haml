@@ -3,7 +3,7 @@
 
 .container.d-flex.align-items-center
   .row
-    .col-md-6.col-sm-12
+    = turbo_frame_tag("top_articles", class: "col-md-6 col-sm-12", busy: true) do
       .card.mask.box
         .card-body
           %h4 Top 5 articles
@@ -15,7 +15,7 @@
               /= "(#{r[:similarity]}%)"
               /%small= link_to "(use this)", knowledge_ask_path(question: @question.question, article_id: r[:article_id])
 
-    .col-md-6.col-sm-12
+    = turbo_frame_tag("geeko_answer", class: "col-md-6 col-sm-12") do
       .card.mask.box
         .card-body
           %h4 What does the Geeko say?

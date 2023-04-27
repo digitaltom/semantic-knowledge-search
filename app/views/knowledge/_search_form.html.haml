@@ -5,7 +5,7 @@
       .row
         .col-lg-12
 
-          = form_tag(knowledge_ask_path, {method: :get}) do
+          = form_tag(knowledge_articles_path, {method: :get, data: { turbo_frame: "top_articles", turbo: true }}) do
             .input-group.input-group-lg
 
               .form-floating

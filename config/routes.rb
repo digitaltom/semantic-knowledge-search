@@ -8,8 +8,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "knowledge#index"
 
-  post 'knowledge/ask', to: 'knowledge#ask'
   get 'knowledge/ask', to: 'knowledge#ask'
+  get 'knowledge/articles', to: 'knowledge#articles'
 
   resources :articles, only: %i[index show]
 
