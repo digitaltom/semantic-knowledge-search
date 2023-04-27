@@ -6,6 +6,8 @@ class Question
 
   attr_reader :question
 
+  MODEL = "text-embedding-ada-002" # (Pricing: Ada $0.0004 / 1K tokens, https://openai.com/pricing)
+
   def initialize(question)
     @question = question
   end
@@ -15,7 +17,7 @@ class Question
       openai = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
       response = openai.embeddings(
         parameters: {
-          model: "text-embedding-ada-002",
+          model: MODEL,
           input: @question
         }
       )

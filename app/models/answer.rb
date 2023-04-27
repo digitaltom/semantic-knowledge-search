@@ -2,6 +2,8 @@ require 'ruby/openai'
 
 class Answer
 
+  MODEL = "gpt-3.5-turbo" # https://openai.com/pricing
+
   def initialize(question, article)
     @question = question
     @article = article
@@ -22,19 +24,19 @@ class Answer
     If the customer's request is not answered by the article you will respond with
     'I'm sorry Dave, I don't know.'
     [Article]
-    #{article_context}
-    [Question]
-    #{@question.question}"
+    #{article_context}"
     
 		openai = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
     # rate limits: https://platform.openai.com/docs/guides/rate-limits/overview
     # playground: https://platform.openai.com/playground
 
-    response = Rails.cache.fetch("answer_#{@question.question}/#{@article.id}", expires_in: 48.hours) do
-      openai.completions(
+    response = Rails.cache.fetch("chat_#{@question.question}/#{@article.id}", expires_in: 48.hours) do
+      openai.chat(
         parameters: {
-          model: "text-davinci-003", # davinci: 1 token per minute
-          prompt: prompt,
+          model: MODEL,
+          messages: [
+            { role: 'system', content: prompt },
+            { role: "user", content: @question.question}],
           temperature: 0.2, # low temperature = very high probability response
           max_tokens: 300,
         }
@@ -46,7 +48,7 @@ class Answer
       raise Exception.new("Generating answer failed: " + response['error'].inspect)
     end
     # strip punctuation from the beginning of the string if it was completed.
-    response['choices'][0]['text'].sub(/^[ ?!\.]*/, '')
+    response.dig("choices", 0, "message", "content").strip.sub(/^[ ?!\.]*/, '')
   end
 
 end
