@@ -69,11 +69,11 @@ a, a.visited, a:hover {
   padding-bottom: 0px;
 }
 
-turbo-frame .loader .card {
+turbo-frame .loader {
   display: none;
 }
 
-turbo-frame[aria-busy="true"] .loader .card {
+turbo-frame[aria-busy="true"] .loader {
   display: block;
 }
 
