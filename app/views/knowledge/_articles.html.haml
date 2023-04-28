@@ -1,4 +1,4 @@
-= turbo_frame_tag("articles", src: knowledge_articles_path(q: @question), disabled: @question.blank?, class: "col-md-6 col-sm-12 pe-1") do
+= turbo_frame_tag("articles", src: knowledge_articles_path(q: @question), disabled: @question.blank?, class: "col-md-6 col-sm-12 pe-md-1") do
   - if @results
     .card.mask.box
       .card-body

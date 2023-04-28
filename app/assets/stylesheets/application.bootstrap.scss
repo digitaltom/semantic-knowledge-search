@@ -73,6 +73,21 @@ a, a.visited, a:hover {
   white-space: pre-line;
 }
 
+.quote-open {
+  @extend .d-none;
+  @extend .d-lg-block;
+  position: absolute;
+  left: 10px;
+}
+
+.quote-close {
+  @extend .d-none;
+  @extend .d-lg-block;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+
 turbo-frame .loader {
   display: none;
 }
