@@ -83,7 +83,8 @@ namespace :import do
 
   SITES = {
     # SLES docs
-    'https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/': {hosts: [/documentation.suse.com/]},
+    'https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/':
+      {links: [/documentation.suse.com/], selector: 'article'},
     #'https://www.suse.com/support/kb/': {}
   }
 
@@ -92,7 +93,8 @@ namespace :import do
 
     SITES.keys.each do |site|
 
-      Spidr.start_at(site.to_s, links: [%{suse.com}], ignore_links: [/.css/, /.js/, /.pdf/]) do |agent|
+      # Spidr doesn't evaluate rejects when any accept filter is true
+      Spidr.start_at(site.to_s, links: SITES[site][:links]) do |agent|
         # Spidr agent (https://github.com/postmodern/spidr/blob/master/lib/spidr/agent.rb)
         agent.every_ok_page do |page|
           # iterating Spidr::Page (https://github.com/postmodern/spidr/blob/master/lib/spidr/page.rb)
@@ -100,7 +102,7 @@ namespace :import do
           #if /^https:\/\/documentation.suse.com/.match(url.to_s)
             puts "On page #{page.url}"
             #puts "  URLs: #{page.urls}"
-
+            import_from_url(page.url.to_s, selector: SITES[site][:selector])
           #else
           #  spider.skip_page!
           #end
@@ -117,33 +119,35 @@ namespace :import do
 
   private
 
-  def import_from_urls(urls)
-    urls.each do |uri|
+  def import_from_url(uri, selector: '.article')
+    #urls.each do |uri|
       begin
         file = URI::open(uri)
         doc = Nokogiri::HTML(file)
-        content = doc.css('#content').text.squeeze(" \n") if doc.at_css('#content')
-        content = doc.css('.chapter').text.squeeze(" \n") if doc.at_css('.chapter')
-        content = doc.css('.article').text.squeeze(" \n") if doc.at_css('.article')
-        content = doc.css('.appendix').text.squeeze(" \n") if doc.at_css('.appendix')
+        #content = doc.css('#content').text.squeeze(" \n") if doc.at_css('#content')
+        #content = doc.css('.chapter').text.squeeze(" \n") if doc.at_css('.chapter')
+        #content = doc.css('.article').text.squeeze(" \n") if doc.at_css('.article')
+        #content = doc.css('.appendix').text.squeeze(" \n") if doc.at_css('.appendix')
+        content = doc.css(selector).text.squeeze(" \n")
 
-        title = doc.css('#content h1').text
-        title = doc.css('title').text if title == ""
+        #title = doc.css('#content h1').text
+        title = doc.css('title').text #if title == ""
 
         if !content || content == ""
           puts "No content found in uri, skipping..."
-          next
+          return
         end
-        content = content.split[0..1200].join(' ')
+        content_words = content.split
+        content = content_words[0..1199].join(' ')
         Article.find_or_initialize_by(url: uri).tap do |a|
           a.update!(title: title, text: content, indexed_at: DateTime.now)
         end
-        puts "Stored '#{title}' from " + uri
+        puts "Stored '#{title}' from #{uri} (#{content.split.size}/#{content_words.size} words)"
       rescue OpenURI::HTTPError => e
         puts "No page at " + uri
       end
-    end
-    Article.where(url: urls).each(&:vectorize!)
+    #end
+    Article.where(url: uri).each(&:vectorize!)
   end
 
 end
