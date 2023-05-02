@@ -81,6 +81,40 @@ namespace :import do
   end
 
 
+  SITES = {
+    # SLES docs
+    'https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/': {hosts: [/documentation.suse.com/]},
+    #'https://www.suse.com/support/kb/': {}
+  }
+
+  desc 'import articles by web crawling'
+  task :crawl, [:url] => [:environment] do |_, args|
+
+    SITES.keys.each do |site|
+
+      Spidr.start_at(site.to_s, links: [%{suse.com}], ignore_links: [/.css/, /.js/, /.pdf/]) do |agent|
+        # Spidr agent (https://github.com/postmodern/spidr/blob/master/lib/spidr/agent.rb)
+        agent.every_ok_page do |page|
+          # iterating Spidr::Page (https://github.com/postmodern/spidr/blob/master/lib/spidr/page.rb)
+
+          #if /^https:\/\/documentation.suse.com/.match(url.to_s)
+            puts "On page #{page.url}"
+            #puts "  URLs: #{page.urls}"
+
+          #else
+          #  spider.skip_page!
+          #end
+        end
+      end
+
+    end
+
+
+
+    #import_from_urls(urls)
+  end
+
+
   private
 
   def import_from_urls(urls)

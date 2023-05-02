@@ -54,6 +54,7 @@ gem 'ruby-openai'
 gem 'nokogiri'
 gem 'cosine-similarity'
 gem 'rails_autolink'
+gem 'spidr'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
