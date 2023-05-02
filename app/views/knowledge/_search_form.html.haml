@@ -1,5 +1,26 @@
-#ask-form
-  = form_tag(knowledge_ask_path, {method: :get}) do
-    .form-group
-      %input.form-control#question{placeholder: "Your question", name: "question", value: @question&.question}
-      %button.btn.btn-primary{type: "submit"} Ask
+.container
+  .card.mask.box
+    .card-body.text-center
+
+      .row
+        .col-lg-12
+
+          = form_tag(root_path, {method: :get}) do
+            .input-group.input-group-lg
+
+              .form-floating
+                %input.form-control.form-control-lg.input-lg#search{type: 'search',placeholder: "Ask the SUSE Geeko", name: 'q', value: @question}
+                %label.text-muted{for: "search"}
+                  Ask the SUSE Geeko
+
+              %button.btn.btn-success.btn-lg.input-group-btn{type: "submit"}
+                %i.bi.bi-search
+
+      .info.m-2
+        = "Geeko has insights into #{@kb_count} SUSE Knowledge Base articles and #{@doc_count} SUSE Documentation pages."
+        %br
+        = "Try it out! Ask him about "
+        %i= link_to "'How to use Yast?'", root_path(q: 'How to use Yast?')
+        = " or "
+        %i= link_to "'How can I see inactive systems in SCC?'", root_path(q: 'How can I see inactive systems in SCC?')
+        = "."

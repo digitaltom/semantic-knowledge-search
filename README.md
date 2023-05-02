@@ -1,19 +1,32 @@
-[![Container build](https://github.com/digitaltom/knowledge/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/digitaltom/knowledge/pkgs/container/knowledge)
+[![Container build](https://github.com/digitaltom/semantic-knowledge-search/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/digitaltom/semantic-knowledge-search/pkgs/container/knowledge)
 
-# Knowledge - Search related articles based on openai embedding, and answer with GPT
+# Semantic knowledge search
 
-![image](https://user-images.githubusercontent.com/582520/227728425-a407d4a7-951d-4f32-8bc4-cb405919571c.png)
+Search engine to find related articles based on openai embedding, and answer with GPT. An installation with SUSE documentation + knowlwdge base articles as
+data source is available at: https://geeko.port0.org/
 
-- Create small text files representing knowledge articles under `storage/training`.
-  Example crawlers are `bin/doc_crawler.rb` and `bin/kb_crawler`.
-  Format is: First line uri, second line title, third ff. content.
-- Import articles with openai embedding vectors with:
-  `Article.import_all` (imports all from `storage/training/**/*.txt`) into sqlite.
+![2023-04-13_12-04](https://user-images.githubusercontent.com/582520/231726466-d4e54b1d-4c8b-4a33-9596-e8d27cadbfd3.png)
+
+To use the [SQLite VSS](https://github.com/asg017/sqlite-vss) (SQLite Vector Similarity Search) extension, you need to install the packages `libgomp1, libblas3, liblapack3`.
+
+- Import articles with and create openai embedding vectors with:
+  - `rake log:info import:doc` (import all doc pages)
+  - `rake log:info import:doc[url]` (import page from url)
+  - `rake log:info import:kb` (import knowledge base articles)
+  - `Article.vectorize_all(reindex: false)` (vectorize articles)
 - Find relevant articles with: `Question.new("question text").related_articles`
 - Create answer with: `Answer.new(question, article).generate`
 
 ### Development
 
-Build image: `DOCKER_BUILDKIT=1 docker build -t ghcr.io/digitaltom/knowledge .`
-Run image: `docker run -ti --network=host --rm -e SECRET_KEY_BASE=<random_secret_key> -e OPENAI_API_KEY=<key> -v <path to storage/training>:/rails/storage/training -v <path to roduction.sqlite3>:/rails/db/production.sqlite3 ghcr.io/digitaltom/knowledge:latest`
+To run the app locally, `cssbundling-rails` requires to run `yarn build:css --watch` in a second terminal next to `rails s`. For `jsbundling-rails`, you need to do the same with `yarn build --watch`. Those commands are combined in `Procfile.dev` and can be run with `foreman start -f Procfile.dev`.
+
+* Build image: `DOCKER_BUILDKIT=1 docker build -t ghcr.io/digitaltom/semantic-knowledge-search .`
+* Run image: `docker run -ti --network=host --rm -e SECRET_KEY_BASE=<random_secret_key> -e OPENAI_API_KEY=<key> -v <path to production.sqlite3>:/rails/db/production.sqlite3 -name knowledge ghcr.io/digitaltom/semantic-knowledge-search`
+* Exec into container: `docker exec knowledge /bin/bash`
+
+### Related articles
+
+* https://simonwillison.net/2023/Jan/13/semantic-search-answers/
+* [Metadata filtering in vector similarity search](https://www.pinecone.io/learn/vector-search-filtering/)
 

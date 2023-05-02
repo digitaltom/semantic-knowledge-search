@@ -1,6 +1,117 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
 
-#ask-form {
-  max-width: 800;
+body {
+  color: #fff;
+}
+
+a, a.visited, a:hover {
+  color: #fff;
+}
+
+.mask {
+  background: rgba(24, 24, 16, .5);
+  border-radius: 2em;
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  background-clip: padding-box;
+  box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+}
+
+.mask-footer {
+  background: rgba(24, 24, 16, .35);
+  border-radius: 1em;
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  background-clip: padding-box;
+  box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+}
+
+.bg-image {
+  background-image: url('bg/2.webp');
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* bootstrap breakpoints:
+   https://getbootstrap.com/docs/5.0/layout/breakpoints/
+
+    X-Small   None  <576px
+    Small   sm  ≥576px
+    Medium  md  ≥768px
+    Large   lg  ≥992px
+    Extra large   xl  ≥1200px
+    Extra extra large   xxl   ≥1400px
+*/
+
+.box {
+  @extend .m-lg-3;
+  @extend .m-md-2;
+  @extend .m-sm-1;
+  @extend .p-lg-3;
+  @extend .p-md-2;
+  @extend .p-sm-1;
+}
+
+/* Smaller image for small screens */
+@media only screen and (max-width: 767px) {
+  .bg-image {
+  }
+}
+
+.info, .info a, .info a.visited {
+  color: #ccc;
+}
+
+.card-body {
+  padding-bottom: 0px;
+}
+
+.answer {
+  white-space: pre-line;
+}
+
+.quote-open {
+  @extend .d-none;
+  @extend .d-lg-block;
+  position: absolute;
+  left: 10px;
+}
+
+.quote-close {
+  @extend .d-none;
+  @extend .d-lg-block;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+
+turbo-frame .loader {
+  display: none;
+}
+
+turbo-frame[aria-busy="true"] .loader {
+  display: block;
+}
+
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 60%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 90%);
+  }
+}
+
+.skeleton-text {
+  width: 100%;
+  height: 1.4rem;
+  margin-bottom: 0.8rem;
+  border-radius: 0.5rem;
 }

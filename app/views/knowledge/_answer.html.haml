@@ -1,0 +1,21 @@
+= turbo_frame_tag("answer", src: knowledge_answer_path(q: @question), disabled: @question.blank?, class: "col-md-6 col-sm-12 ps-md-1") do
+  - if @answer
+    .card.mask.box
+      .card-body
+        %h4 What does the Geeko say?
+        %i.bi.bi-quote.quote-open
+        .answer<
+          = auto_link(@answer)
+        %i.bi.bi-quote.quote-close
+
+  - else # skeleton loader
+    .card.mask.box.loader
+      .card-body
+        %h4 What does the Geeko say?
+        %i.bi.bi-quote
+        .skeleton.skeleton-text
+        .skeleton.skeleton-text
+        .skeleton.skeleton-text
+        .skeleton.skeleton-text
+        .skeleton.skeleton-text
+        %i.bi.bi-quote

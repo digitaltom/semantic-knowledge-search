@@ -22,7 +22,8 @@ FROM base as build
 
 # Install packages needed to build gems and node modules
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential curl git node-gyp pkg-config python-is-python3
+    apt-get install --no-install-recommends -y build-essential curl git \
+                    node-gyp pkg-config python-is-python3 libgomp1 libblas3 liblapack3 vim
 
 # Install JavaScript dependencies
 ARG NODE_VERSION=16.19.1
@@ -52,13 +53,19 @@ RUN bundle exec bootsnap precompile app/ lib/
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
+# remove compressed css + js to avoid:
+# "content-type 'text/gz' is not 'text/css'"
+RUN rm ./public/assets/application-*.css.gz
+RUN rm ./public/assets/application-*.js.gz
 
 # Final stage for app image
 FROM base
 
 # Install packages needed for deployment
+# Last line are dependencies for sqlite vss0
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y libsqlite3-0 && \
+    apt-get install --no-install-recommends -y libgomp1 libblas3 liblapack3 vim curl && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Run and own the application files as a non-root user for security
