@@ -141,13 +141,13 @@ namespace :import do
         content = content_words[0..1199].join(' ')
         Article.find_or_initialize_by(url: uri).tap do |a|
           a.update!(title: title, text: content, indexed_at: DateTime.now)
+          if a.previous_changes['embedding']
+            puts "Stored '#{title}' from #{uri} (#{content.split.size}/#{content_words.size} words)"
+          end
         end
-        puts "Stored '#{title}' from #{uri} (#{content.split.size}/#{content_words.size} words)"
       rescue OpenURI::HTTPError => e
         puts "No page at " + uri
       end
-    #end
-    Article.where(url: uri).each(&:vectorize!)
   end
 
 end

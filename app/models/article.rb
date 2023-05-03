@@ -8,7 +8,7 @@ class Article < ApplicationRecord
   scope :kb, -> { where("url like '%support/kb%'") }
   scope :doc, -> { where("url like '%documentation.suse.com%'") }
 
-  after_save :update_vss_article
+  after_save :vectorize_on_text_update
   after_destroy :destroy_vss_article
 
   def self.vectorize_all(reindex: false)
@@ -17,6 +17,13 @@ class Article < ApplicationRecord
       a.vectorize!
       # rate limit is 60/minute
       sleep(2)
+    end
+  end
+
+  def vectorize_on_text_update
+    if (saved_change_to_text?)
+      vectorize!
+      update_vss_article
     end
   end
 
