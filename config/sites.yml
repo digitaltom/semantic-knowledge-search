@@ -1,0 +1,53 @@
+# SLES docs
+https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/:
+  links: ['documentation.suse.com/en-us/sles/15-SP4/html']
+  selector: 'article'
+  category: 'doc'
+https://documentation.suse.com/en-us/subscription/suseconnect/html/SLE-suseconnect-visibility:
+  links: ['documentation.suse.com/en-us/subscription/suseconnect/html']
+  selector: 'article'
+  category: 'doc'
+https://documentation.suse.com/en-us/container/all/html/SLES-container:
+  links: ['documentation.suse.com/en-us/container/all/html']
+  selector: 'article'
+  category: 'doc'
+https://documentation.suse.com/en-us/sle-public-cloud/all/html/public-cloud:
+  links: ['documentation.suse.com/en-us/sle-public-cloud/all/html']
+  selector: 'article'
+  category: 'doc'
+https://documentation.suse.com/suma/4.3/en/suse-manager/index.html:
+  links: ['documentation.suse.com/suma/4.3/en/suse-manager']
+  selector: 'article'
+  category: 'doc'
+https://ranchermanager.docs.rancher.com/getting-started/overview:
+  links: ['ranchermanager.docs.rancher.com']
+  selector: 'article'
+  category: 'doc'
+https://docs.harvesterhci.io/v1.1/install/requirements:
+  links: ['docs.harvesterhci.io/v1.1']
+  selector: 'article'
+  category: 'doc'
+https://open-docs.neuvector.com/basics/overview:
+  links: ['open-docs.neuvector.com']
+  selector: '#body'
+  category: 'doc'
+# SUSE Blog
+https://www.suse.com/c/blog:
+  links: ['suse.com/c']
+  selector: 'section.main'
+  category: 'blog'
+# Product Lifecycle
+https://www.suse.com/lifecycle:
+  links: ['suse.com/lifecycle']
+  selector: '.lifecycle-page'
+  category: 'web'
+# Release Notes:
+https://www.suse.com/releasenotes/index.html:
+  links: ['suse.com/releasenotes']
+  selector: '.article'
+  category: 'web'
+# SUSE Knowledge base
+https://www.suse.com/support/kb: # TODO: Only paginates latest 300 articles...
+  links: ['suse.com/support\/kb']
+  selector: '#content'
+  category: 'kb'

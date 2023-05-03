@@ -1,75 +1,8 @@
 namespace :import do
   desc 'import documentation pages'
   task :doc, [:path] => [:environment] do |_, args|
-
-    URLS = [
-      "https://documentation.suse.com/container/kubevirt/html/SLE-kubevirt/article-kubevirt.html",
-      # scc
-      "https://documentation.suse.com/subscription/suseconnect/html/SLE-suseconnect-visibility/article-suseconnect-visibility.html",
-      # rmt
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/rmt-overview.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-rmt-installation.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-rmt-migrate.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-rmt-mirroring.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-rmt-client.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-rmt-tools.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-rmt-backup.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-manage-certificates.html",
-      # sles
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-adm-shell.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-adm-sudo.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-yast-gui.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-yast-text.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-yast-lang.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-yast-userman.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-onlineupdate-you.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-yast-software.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-sw-cl.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-snapper.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-klp.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-ulp.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-transactional-updates.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-vnc.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-net-rsync.html",
-      # other sles docs
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/article-modules.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/article-installation.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-upgrade-background.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-update-preparation.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-upgrade-offline.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-upgrade-online.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-upgrade-finish.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-upgrade-paths.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-upgrade-background.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-update-preparation.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-upgrade-offline.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-upgrade-online.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-upgrade-finish.html",
-      "https://documentation.suse.com/sles/15-SP4/html/SLES-all/cha-update-backport.html",
-      # Container Guide
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-containers-basics.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-bci.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-containers-build.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-docker-installation.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-registry-installation.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-containers-get.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-docker-building-images.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-orchestration.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-docker-containerize-app.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-podman-overview.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-buildah-overview.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-containers-support.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-containers-troubleshoot.html",
-      "https://documentation.suse.com/container/all/html/SLES-container/cha-containers-terminology.html",
-      # Public Cloud Guide
-      "https://documentation.suse.com/sle-public-cloud/all/html/public-cloud/cha-intro.html",
-      "https://documentation.suse.com/sle-public-cloud/all/html/public-cloud/cha-images.html",
-      "https://documentation.suse.com/sle-public-cloud/all/html/public-cloud/cha-admin.html",
-      "https://documentation.suse.com/sle-public-cloud/all/html/public-cloud/app-public-cloud-support.html"
-    ]
-    urls = URLS
-    urls = [args[:path]] if args[:path]
-    import_from_urls(urls)
+    url = args[:path]
+    import_from_url(url)
   end
 
   desc 'import knowledge base articles'
@@ -77,77 +10,55 @@ namespace :import do
     KB_IDS = (20_000..21_034).map{|id| id.to_s.rjust(9, '0')}
     urls = KB_IDS.map{|id| "https://www.suse.com/support/kb/doc/?id=#{id}"}
     urls = [args[:path]] if args[:path]
-    import_from_urls(urls)
+    urls.each{|url| import_from_url(url, selector: '#content')}
   end
 
-
-  SITES = {
-    # SLES docs
-    'https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/':
-      {links: [/documentation.suse.com/], selector: 'article'},
-    #'https://www.suse.com/support/kb/': {}
-  }
-
-  desc 'import articles by web crawling'
-  task :crawl, [:url] => [:environment] do |_, args|
-
-    SITES.keys.each do |site|
-
+  desc 'import articles by web crawling sites defined in sites.yml'
+  task :crawl, [:site] => [:environment] do |_, args|
+    sites_file = Rails.root.join('config', 'sites.yml')
+    raise 'Please create a config/sites.yml file' unless File.exist?(sites_file)
+    sites = YAML.load_file(Rails.root.join('config', 'sites.yml'))
+    sites = { "#{args[:site]}": sites[args[:site]]} if args[:site]
+    sites.keys.each do |site|
+      sites[site]['links'] = sites[site]['links'].map{|l| Regexp.new(l)}
+      puts "Starting Spidr with #{site} (links: #{sites[site]['links']}, selector: #{sites[site]['selector']})"
       # Spidr doesn't evaluate rejects when any accept filter is true
-      Spidr.start_at(site.to_s, links: SITES[site][:links]) do |agent|
+      Spidr.start_at(site.to_s, links: sites[site]['links']) do |agent|
         # Spidr agent (https://github.com/postmodern/spidr/blob/master/lib/spidr/agent.rb)
         agent.every_ok_page do |page|
           # iterating Spidr::Page (https://github.com/postmodern/spidr/blob/master/lib/spidr/page.rb)
-
-          #if /^https:\/\/documentation.suse.com/.match(url.to_s)
-            puts "On page #{page.url}"
-            #puts "  URLs: #{page.urls}"
-            import_from_url(page.url.to_s, selector: SITES[site][:selector])
-          #else
-          #  spider.skip_page!
-          #end
+          puts "On page #{page.url}"
+          import_from_url(page.url.to_s, selector: sites[site]['selector'])
         end
       end
-
     end
-
-
-
-    #import_from_urls(urls)
   end
-
 
   private
 
-  def import_from_url(uri, selector: '.article')
-    #urls.each do |uri|
-      begin
-        file = URI::open(uri)
-        doc = Nokogiri::HTML(file)
-        #content = doc.css('#content').text.squeeze(" \n") if doc.at_css('#content')
-        #content = doc.css('.chapter').text.squeeze(" \n") if doc.at_css('.chapter')
-        #content = doc.css('.article').text.squeeze(" \n") if doc.at_css('.article')
-        #content = doc.css('.appendix').text.squeeze(" \n") if doc.at_css('.appendix')
-        content = doc.css(selector).text.squeeze(" \n")
+  def import_from_url(uri, selector: 'article, #content, .chapter, .article, .appendix, main')
+    file = URI::open(uri)
+    doc = Nokogiri::HTML(file)
+    content = doc.css(selector).text.squeeze(" \n")
+    title = doc.css('title').text
 
-        #title = doc.css('#content h1').text
-        title = doc.css('title').text #if title == ""
+    if !content || content == ""
+      puts "No content found in uri, skipping..."
+      return
+    end
 
-        if !content || content == ""
-          puts "No content found in uri, skipping..."
-          return
-        end
-        content_words = content.split
-        content = content_words[0..1199].join(' ')
-        Article.find_or_initialize_by(url: uri).tap do |a|
-          a.update!(title: title, text: content, indexed_at: DateTime.now)
-          if a.previous_changes['embedding']
-            puts "Stored '#{title}' from #{uri} (#{content.split.size}/#{content_words.size} words)"
-          end
-        end
-      rescue OpenURI::HTTPError => e
-        puts "No page at " + uri
+    content_words = content.split
+    content = content_words[0..1199].join(' ')
+    Article.find_or_initialize_by(url: uri).tap do |a|
+      a.update!(title: title, text: content, indexed_at: DateTime.now)
+      if a.previous_changes['embedding']
+        puts "Stored '#{title}' from #{uri} (#{content.split.size}/#{content_words.size} words)"
       end
+    end
+  rescue OpenURI::HTTPError => e
+    puts "No page at " + uri
+  rescue Exception => e
+    puts "Error: #{e.message}"
   end
 
 end
