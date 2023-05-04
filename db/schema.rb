@@ -10,9 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_04_07_222317) do
+ActiveRecord::Schema[7.1].define(version: 2023_05_03_141634) do
   create_table "articles", force: :cascade do |t|
-    t.string "file"
     t.string "url"
     t.string "title"
     t.json "embedding"
@@ -21,6 +20,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_04_07_222317) do
     t.datetime "updated_at", null: false
     t.datetime "vectorized_at"
     t.datetime "indexed_at"
+    t.string "category"
+    t.index ["url"], name: "index_articles_on_url", unique: true
   end
 
-end

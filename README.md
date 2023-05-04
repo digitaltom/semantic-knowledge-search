@@ -14,7 +14,7 @@ To start an instance of the search app run (replace <secret_key>, <openai_key>,
 
 `docker run -ti --network=host --rm -e SECRET_KEY_BASE=<random_secret_key> -e OPENAI_API_KEY=<openai_key> -v <path_to_production.sqlite3>:/rails/db/production.sqlite3 -name knowledge ghcr.io/digitaltom/semantic-knowledge-search`
 
-Exec into the container with `docker exec knowledge /bin/bash` to perform some tasks manually:
+Exec into the container with `docker exec -ti knowledge /bin/bash` to perform some tasks manually:
 
 - Import articles with and create openai embedding vectors with:
   - `rake log:info import:doc[url]` (import page from url)
