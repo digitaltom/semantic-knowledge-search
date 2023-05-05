@@ -35,7 +35,7 @@ class Question
     if vss
       Rails.cache.fetch("articles_#{embedding}", expires_in: 48.hours) do
         ensure_vss0
-                begin
+        begin
           ActiveRecord::Base.connection.execute("select rowid as article_id, distance from vss_articles where vss_search(embedding, '#{embedding}') limit 5")
         rescue => e
           # vss raises on select on empty db

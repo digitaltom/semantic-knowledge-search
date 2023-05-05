@@ -9,7 +9,7 @@ class KnowledgeController < ApplicationController
   end
 
   def articles
-    question = Question.new(params[:q])
+    question = Question.new(params[:q][0..128])
     time = Benchmark.measure {
       @results = question.related_articles
     }
@@ -18,7 +18,7 @@ class KnowledgeController < ApplicationController
   end
 
   def answer
-    question = Question.new(params[:q])
+    question = Question.new(params[:q][0..128])
     time = Benchmark.measure {
       @results = question.related_articles
     }

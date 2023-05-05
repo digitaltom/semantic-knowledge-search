@@ -2,7 +2,7 @@
 
 # Semantic knowledge search
 
-Search engine to find related articles based on openai embedding, and answer with GPT. An installation with SUSE documentation + knowlwdge base articles as
+Search engine to find related articles based on openai embedding, and answer with GPT. An installation with SUSE documentation + knowledge base articles as
 data source is available at: https://geeko.port0.org/
 
 ![2023-04-13_12-04](https://user-images.githubusercontent.com/582520/231726466-d4e54b1d-4c8b-4a33-9596-e8d27cadbfd3.png)
@@ -17,8 +17,8 @@ To start an instance of the search app run (replace <secret_key>, <openai_key>,
 Exec into the container with `docker exec -ti knowledge /bin/bash` to perform some tasks manually:
 
 - Import articles with and create openai embedding vectors with:
-  - `rake log:info import:doc[url]` (import page from url)
-  - `rake log:info import:crawl[url]` (crawl articles based on `config/sites.yml`)
+  - `bin/rake log:info import:doc[url]` (import page from url)
+  - `bin/rake log:info import:crawl[url]` (crawl articles based on `config/sites.yml`)
 - Find relevant articles with: `Question.new("question text").related_articles`
 - Create answer with: `Answer.new(question, article).generate`
 
