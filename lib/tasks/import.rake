@@ -28,7 +28,7 @@ namespace :import do
         agent.every_ok_page do |page|
           # iterating Spidr::Page (https://github.com/postmodern/spidr/blob/master/lib/spidr/page.rb)
           puts "On page #{page.url}"
-          import_from_url(page.url.to_s, selector: sites[site]['selector'])
+          import_from_url(page.url.to_s, selector: sites[site]['selector'], category: sites[site]['category'])
         end
       end
     end
@@ -36,7 +36,8 @@ namespace :import do
 
   private
 
-  def import_from_url(uri, selector: 'article, #content, .chapter, .article, .appendix, main')
+  def import_from_url(uri, selector: 'article, #content, .chapter, .article, .appendix, main',
+                      category: 'doc')
     file = URI::open(uri)
     doc = Nokogiri::HTML(file)
     content = doc.css(selector).text.squeeze(" \n")
@@ -50,7 +51,7 @@ namespace :import do
     content_words = content.split
     content = content_words[0..1199].join(' ')
     Article.find_or_initialize_by(url: uri).tap do |a|
-      a.update!(title: title, text: content, indexed_at: DateTime.now)
+      a.update!(title: title, text: content, category: category,indexed_at: DateTime.now)
       if a.previous_changes['embedding']
         puts "Stored '#{title}' from #{uri} (#{content.split.size}/#{content_words.size} words)"
       end

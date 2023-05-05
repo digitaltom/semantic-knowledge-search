@@ -5,8 +5,8 @@ class Article < ApplicationRecord
 
   scope :not_vectorized, -> { where(embedding: nil) }
   scope :vectorized, -> { where.not(embedding: nil) }
-  scope :kb, -> { where("url like '%support/kb%'") }
-  scope :doc, -> { where("url like '%documentation.suse.com%'") }
+  scope :kb, -> { where(category: 'kb') }
+  scope :doc, -> { where(category: 'doc') }
 
   after_save :vectorize_on_text_update
   after_destroy :destroy_vss_article
