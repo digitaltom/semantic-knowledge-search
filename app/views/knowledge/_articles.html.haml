@@ -1,5 +1,5 @@
 = turbo_frame_tag("articles", src: knowledge_articles_path(q: @question), disabled: @question.blank?, class: "col-md-6 col-sm-12 pe-md-1") do
-  - if @results
+  - if @results.present?
     .card.mask.box
       .card-body
         %h4 Top 5 articles
