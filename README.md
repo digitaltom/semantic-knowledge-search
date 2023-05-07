@@ -2,7 +2,11 @@
 
 # Semantic knowledge search
 
-Search engine to find related articles based on openai embedding, and answer with GPT. An installation with SUSE documentation + knowledge base articles as
+Search engine to find related articles based on vector search, and create an
+answer with GPT. Currently using openai APIs to create the embeddings and
+GPT answer. In the future, the goal is to have a LLM embedded and run stand alone.
+
+An installation with SUSE documentation + knowledge base articles as
 data source is available at: https://geeko.port0.org/
 
 ![2023-04-13_12-04](https://user-images.githubusercontent.com/582520/231726466-d4e54b1d-4c8b-4a33-9596-e8d27cadbfd3.png)
