@@ -6,6 +6,28 @@ Search engine to find related articles based on vector search, and create an
 answer with GPT. Currently using openai APIs to create the embeddings and
 GPT answer. In the future, the goal is to have a LLM embedded and run stand alone.
 
+```mermaid
+sequenceDiagram;
+    actor User
+    participant Semantic Search App
+    participant openAI API
+    loop Resource indexing
+        Semantic Search App->>Project Doc Pages: Crawling page
+        Project Doc Pages-->>Semantic Search App: Page content
+        Semantic Search App->>openAI API: Request vector representation of content
+        openAI API-->>Semantic Search App: Article vectors
+        Semantic Search App->>Semantic Search App: Storing vectorized article in Sqlite VSS
+    end        
+
+    User->>Semantic Search App: Search request
+    Semantic Search App->>openAI API: Request to vectorize question
+    openAI API-->>Semantic Search App: Question vectors
+    Semantic Search App->>Semantic Search App: Local vector similarity search based on vectorized articles
+    Semantic Search App->>openAI API: Request GPT answer for question based on best matching article
+    openAI API-->>Semantic Search App: GPT response
+    Semantic Search App-->>User: Page with matching articles and GPT response
+```
+
 An installation with SUSE documentation + knowledge base articles as
 data source is available at: https://geeko.port0.org/
 
