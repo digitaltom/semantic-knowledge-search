@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 7d1c4dd7be1b51e2dcbb3614b68dc98c2926d28c
+  revision: 5dd4dcbae3647cb4b37000bfe6273d6865bd6dc8
   branch: main
   specs:
     actioncable (7.1.0.alpha)
@@ -37,7 +37,7 @@ GIT
       rack-session (>= 1.0.1)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
-      rails-html-sanitizer (~> 1.0, >= 1.2.0)
+      rails-html-sanitizer (~> 1.6)
     actiontext (7.1.0.alpha)
       actionpack (= 7.1.0.alpha)
       activerecord (= 7.1.0.alpha)
@@ -50,7 +50,7 @@ GIT
       builder (~> 3.1)
       erubi (~> 1.11)
       rails-dom-testing (~> 2.0)
-      rails-html-sanitizer (~> 1.1, >= 1.2.0)
+      rails-html-sanitizer (~> 1.6)
     activejob (7.1.0.alpha)
       activesupport (= 7.1.0.alpha)
       globalid (>= 0.3.6)
@@ -137,7 +137,7 @@ GEM
       temple (>= 0.8.2)
       thor
       tilt
-    i18n (1.13.0)
+    i18n (1.14.0)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
     irb (1.6.4)
