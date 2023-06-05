@@ -171,7 +171,7 @@ GEM
     nokogiri (1.15.2-x86_64-linux)
       racc (~> 1.4)
     public_suffix (5.0.1)
-    puma (6.2.2)
+    puma (6.3.0)
       nio4r (~> 2.0)
     racc (1.6.2)
     rack (3.0.7)
@@ -259,7 +259,7 @@ DEPENDENCIES
   haml
   jsbundling-rails
   nokogiri
-  puma (~> 6.2)
+  puma (~> 6.3)
   rails!
   rails_autolink
   redis (~> 5.0)
