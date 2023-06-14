@@ -2,10 +2,14 @@
   - if @results.present?
     .card.mask.box
       .card-body
-        %h4 Top 5 articles
+        %h4 Top article
+        %p
+          - article = Article.find(@results.first['article_id'])
+          = link_to article.title, article.url
 
-        %ol
-          - @results.each do |r|
+        %h4 More related articles
+        %ul
+          - @results[1..4].each do |r|
             - article = Article.find(r['article_id'])
             %li= link_to article.title, article.url
             /= "(#{r[:similarity]}%)"

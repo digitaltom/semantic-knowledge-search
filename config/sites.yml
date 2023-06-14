@@ -51,3 +51,40 @@ https://www.suse.com/support/kb: # TODO: Only paginates latest 300 articles...
   links: ['suse.com/support\/kb']
   selector: '#content'
   category: 'kb'
+# Man pages, crawl in iterations, else the crawler has too many links
+https://manpages.opensuse.org/Tumbleweed/index.html:
+  links: ['Tumbleweed/index.html', 'manpages.opensuse.org/Tumbleweed/[0-9A-Z]']
+  selector: '.mandoc'
+  category: 'manpages'
+https://manpages.opensuse.org/Tumbleweed/index.html#1:
+  links: ['Tumbleweed/index.html', 'manpages.opensuse.org/Tumbleweed/[a-c]']
+  selector: '.mandoc'
+  category: 'manpages'
+https://manpages.opensuse.org/Tumbleweed/index.html#2:
+  links: ['Tumbleweed/index.html', 'manpages.opensuse.org/Tumbleweed/[d-f]']
+  selector: '.mandoc'
+  category: 'manpages'
+https://manpages.opensuse.org/Tumbleweed/index.html#3:
+  links: ['Tumbleweed/index.html', 'manpages.opensuse.org/Tumbleweed/[g-j]']
+  selector: '.mandoc'
+  category: 'manpages'
+https://manpages.opensuse.org/Tumbleweed/index.html#4:
+  links: ['Tumbleweed/index.html', 'manpages.opensuse.org/Tumbleweed/[k-m]']
+  selector: '.mandoc'
+  category: 'manpages'
+https://manpages.opensuse.org/Tumbleweed/index.html#5:
+  links: ['Tumbleweed/index.html', 'manpages.opensuse.org/Tumbleweed/[n-p]']
+  selector: '.mandoc'
+  category: 'manpages'
+https://manpages.opensuse.org/Tumbleweed/index.html#6:
+  links: ['Tumbleweed/index.html', 'manpages.opensuse.org/Tumbleweed/[q-s]']
+  selector: '.mandoc'
+  category: 'manpages'
+https://manpages.opensuse.org/Tumbleweed/index.html#7:
+  links: ['Tumbleweed/index.html', 'manpages.opensuse.org/Tumbleweed/[t-v]']
+  selector: '.mandoc'
+  category: 'manpages'
+https://manpages.opensuse.org/Tumbleweed/index.html#8:
+  links: ['Tumbleweed/index.html', 'manpages.opensuse.org/Tumbleweed/[w-z]']
+  selector: '.mandoc'
+  category: 'manpages'
