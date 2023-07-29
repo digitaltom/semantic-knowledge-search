@@ -117,7 +117,7 @@ GEM
     connection_pool (2.4.1)
     cosine-similarity (1.0.0)
     crass (1.0.6)
-    cssbundling-rails (1.1.2)
+    cssbundling-rails (1.2.0)
       railties (>= 6.0.0)
     date (3.3.3)
     dotenv (2.8.1)
