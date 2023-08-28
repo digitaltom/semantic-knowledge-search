@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: c78432b33f39f8fd1352d18725889a3467cb25dc
+  revision: 0d46f69db53ccf36687b2a228ed5efb19d258389
   branch: main
   specs:
     actioncable (7.1.0.alpha)
@@ -28,7 +28,7 @@ GIT
       net-imap
       net-pop
       net-smtp
-      rails-dom-testing (~> 2.0)
+      rails-dom-testing (~> 2.2)
     actionpack (7.1.0.alpha)
       actionview (= 7.1.0.alpha)
       activesupport (= 7.1.0.alpha)
@@ -36,7 +36,7 @@ GIT
       rack (>= 2.2.4)
       rack-session (>= 1.0.1)
       rack-test (>= 0.6.3)
-      rails-dom-testing (~> 2.0)
+      rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
     actiontext (7.1.0.alpha)
       actionpack (= 7.1.0.alpha)
@@ -49,7 +49,7 @@ GIT
       activesupport (= 7.1.0.alpha)
       builder (~> 3.1)
       erubi (~> 1.11)
-      rails-dom-testing (~> 2.0)
+      rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
     activejob (7.1.0.alpha)
       activesupport (= 7.1.0.alpha)
@@ -67,10 +67,14 @@ GIT
       activesupport (= 7.1.0.alpha)
       marcel (~> 1.0)
     activesupport (7.1.0.alpha)
+      base64
+      bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
       connection_pool (>= 2.2.5)
+      drb
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
+      mutex_m
       tzinfo (~> 2.0)
     rails (7.1.0.alpha)
       actioncable (= 7.1.0.alpha)
@@ -101,6 +105,8 @@ GEM
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
     awesome_print (1.9.2)
+    base64 (0.1.1)
+    bigdecimal (3.1.4)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -125,6 +131,8 @@ GEM
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
+    drb (2.1.1)
+      ruby2_keywords
     erubi (1.12.0)
     faraday (2.7.7)
       faraday-net_http (>= 2.0, < 3.1)
@@ -155,10 +163,11 @@ GEM
       net-smtp
     marcel (1.0.2)
     matrix (0.4.2)
-    mini_mime (1.1.2)
+    mini_mime (1.1.5)
     minitest (5.19.0)
     msgpack (1.6.1)
     multipart-post (2.3.0)
+    mutex_m (0.1.2)
     net-imap (0.3.7)
       date
       net-protocol
@@ -200,7 +209,7 @@ GEM
     redis-client (0.14.1)
       connection_pool
     regexp_parser (2.8.1)
-    reline (0.3.7)
+    reline (0.3.8)
       io-console (~> 0.5)
     rexml (3.2.6)
     ruby-openai (4.2.0)
