@@ -2,35 +2,35 @@ require 'ruby/openai'
 
 class Answer
 
-  MODEL = "gpt-3.5-turbo" # https://openai.com/pricing
+  MODEL = "gpt-3.5-turbo-16k" # https://openai.com/pricing
 
-  def initialize(question, article)
+  def initialize(question, articles)
     @question = question
-    @article = article
+    @articles = articles
   end
 
   def generate
     # Note: limiting the article text because of max context length of 4096 tokens (incl. the 400 from the response)
-    article_context = @article.text.split[0..900].join(' ')
+    article_context = @articles[0..2].map(&:text).join(' ')
 
-    Rails.logger.info "Article has #{@article.text.split.size} words, using 900."
+    #Rails.logger.info "Article has #{@article.text.split.size} words, using 900."
     prompt =
     "You are an AI assistant answering customer requests based on performing a
     semantic search over documentation and knowledge base articles.
     You will answer in a helpful and friendly manner.
-    You will be provided information under the [Article] section.
+    You will be provided information under the [Articles] section.
     You will answer the customer's requests only based on information from the article.
-    All of your knowledge only comes from the article content.
-    If the customer's request is not answered by the article you will respond with
+    All of your knowledge only comes from the articles content.
+    If the customer's request is not answered by the articles you will respond with
     'I'm sorry Dave, I don't know.'
-    [Article]
+    [Articles]
     #{article_context}"
     
 		openai = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
     # rate limits: https://platform.openai.com/docs/guides/rate-limits/overview
     # playground: https://platform.openai.com/playground
 
-    response = Rails.cache.fetch("chat_#{@question.question}/#{@article.id}", expires_in: 48.hours) do
+    response = Rails.cache.fetch("chat_#{@question.question}/#{@articles.map(&:id).join(',')}", expires_in: 48.hours) do
       openai.chat(
         parameters: {
           model: MODEL,
