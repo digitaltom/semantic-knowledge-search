@@ -151,13 +151,13 @@ GEM
       timeout
     net-smtp (0.4.0)
       net-protocol
-    nio4r (2.5.9)
+    nio4r (2.6.1)
     nokogiri (1.15.5-x86_64-linux)
       racc (~> 1.4)
     psych (5.1.0)
       stringio
     public_suffix (5.0.1)
-    puma (6.3.1)
+    puma (6.4.0)
       nio4r (~> 2.0)
     racc (1.7.3)
     rack (3.0.8)
@@ -271,7 +271,7 @@ DEPENDENCIES
   haml
   jsbundling-rails
   nokogiri
-  puma (~> 6.3)
+  puma (~> 6.4)
   rails (~> 7.1)
   rails_autolink
   redis (~> 5.0)
