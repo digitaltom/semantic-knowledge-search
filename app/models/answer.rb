@@ -2,7 +2,7 @@ require 'ruby/openai'
 
 class Answer
 
-  MODEL = "gpt-3.5-turbo-16k" # https://openai.com/pricing
+  MODEL = "gpt-4o-mini" # https://openai.com/pricing
 
   def initialize(question, articles)
     @question = question
