@@ -1,3 +1,5 @@
+require 'open-uri'
+
 namespace :import do
   desc 'import documentation pages'
   task :doc, [:path] => [:environment] do |_, args|
