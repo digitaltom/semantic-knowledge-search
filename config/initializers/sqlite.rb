@@ -1,7 +1,10 @@
-# enable sqlite vector search extension: https://github.com/asg017/sqlite-vss
-ActiveRecord::Base.connection.raw_connection.enable_load_extension(true)
-ActiveRecord::Base.connection.raw_connection.load_extension('./lib/vector0')
-ActiveRecord::Base.connection.raw_connection.load_extension('./lib/vss0')
+require 'sqlite3'
+require 'sqlite_vec'
 
-puts("Enabled sqlite vss extension " +
-  ActiveRecord::Base.connection.execute('select vss_version()').to_s)
+# enable sqlite vector search extension: https://alexgarcia.xyz/sqlite-vec/ruby.html
+ActiveRecord::Base.connection.raw_connection.enable_load_extension(true)
+SqliteVec.load(ActiveRecord::Base.connection.raw_connection)
+ActiveRecord::Base.connection.raw_connection.enable_load_extension(false)
+
+puts("Initialized sqlite vec extension " +
+  ActiveRecord::Base.connection.execute('select vec_version()').to_s)

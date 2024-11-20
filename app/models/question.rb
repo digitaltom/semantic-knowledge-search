@@ -1,6 +1,6 @@
 require 'ruby/openai'
 require 'cosine_similarity'
-require 'vss0'
+require 'vec'
 
 class Question
 
@@ -34,9 +34,16 @@ class Question
   def related_articles(vss: true)
     if vss
       Rails.cache.fetch("articles_#{embedding}", expires_in: 48.hours) do
-        ensure_vss0
+        db = ActiveRecord::Base.connection.raw_connection
+        ensure_sqlite_vec
         begin
-          ActiveRecord::Base.connection.execute("select rowid as article_id, distance from vss_articles where vss_search(embedding, '#{embedding}') limit 5")
+          db.execute(<<-SQL, [embedding.pack("f*")])
+            SELECT rowid as article_id, distance
+            FROM #{Article::EMBEDDINGS_TABLE}
+            WHERE embedding MATCH ?
+            ORDER BY distance
+            LIMIT 5
+          SQL
         rescue => e
           # vss raises on select on empty db
           []
