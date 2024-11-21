@@ -9,6 +9,10 @@ class Llm::Ollama
   TOKEN = ENV['OLLAMA_API_KEY']
   API_ENDPOINT = ENV['OLLAMA_API_ENDPOINT']
 
+  # Number of embeddings returned by the LLM API
+  # Needs to be aligned with the embeddings column size
+  MAX_EMBEDDINGS = 4096
+
   # https://github.com/gbaptista/ollama-ai
   def initialize
     @client = Ollama.new(
@@ -21,13 +25,18 @@ class Llm::Ollama
   end
 
   def embeddings(text)
-    @client.embeddings(
+    response = @client.embeddings(
       {
         model: MODEL_EMBEDDINGS,
         prompt: text,
         options: {}
       }
     )
+    unless response[0]['embedding']
+      Rails.logger.error(response.inspect)
+      raise Exception.new("Vectorizing failed")
+    end
+    response[0]['embedding']
   end
 
 
@@ -37,7 +46,7 @@ class Llm::Ollama
         {
           model: MODEL_CHAT,
           messages: [
-            { role: 'system', content: prompt },
+            { role: "user", content: prompt },
             { role: "user", content: question}],
           stream: false
         }
@@ -48,6 +57,10 @@ class Llm::Ollama
       end
       result.first['message']['content']
     end
+  end
+
+  def inspect
+    puts("Using Ollama LLM backend (API: #{API_ENDPOINT}, model: #{MODEL_CHAT})")
   end
 
 end

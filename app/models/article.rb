@@ -13,7 +13,6 @@ class Article < ApplicationRecord
   after_destroy :destroy_article_text_embedding
 
   EMBEDDINGS_TABLE = "article_text_embeddings"
-  MAX_EMBEDDINGS = 1536
 
   def self.vectorize_all(reindex: false)
     articles = reindex ? all : not_vectorized
@@ -31,8 +30,7 @@ class Article < ApplicationRecord
 
   def vectorize!
     logger.info "Vectorizing article #{url}"
-    # embedding size from openai is 1536
-    self.embedding = Llm::OpenAi.new.embeddings(text)
+    self.embedding = Llm::Api.create.embeddings(text)
     self.vectorized_at = DateTime.now
     self.save!
     logger.info "Vectorized article '#{title}' with #{embedding.length} keys"

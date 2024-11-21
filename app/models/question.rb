@@ -12,7 +12,7 @@ class Question
 
   def embedding
     Rails.cache.fetch("question_embedding_#{question}", expires_in: 48.hours) do
-      embedding = Llm::OpenAi.new.embeddings(question)
+      embedding = Llm::Api.create.embeddings(question)
       Rails.logger.info("Generated embedding for '#{@question}' (#{embedding.size} vectors)")
       embedding
     end
