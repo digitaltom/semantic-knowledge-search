@@ -57,8 +57,6 @@ class Llm::Ollama
       end
       result.first['message']['content']
     end
-
-    response[0]['response'].strip.sub(/^[ ?!\.]*/, '')
   end
 
   def inspect
