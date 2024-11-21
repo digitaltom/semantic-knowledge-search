@@ -45,14 +45,19 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
-gem "haml"
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'byebug'
 gem 'awesome_print'
 gem 'nokogiri'
 gem 'cosine-similarity'
+
+# views
+gem "haml"
 gem 'rails_autolink'
+
+# crawling content
 gem 'spidr'
+gem 'octokit'
 
 # llm interfaces
 gem 'ruby-openai'

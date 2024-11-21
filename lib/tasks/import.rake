@@ -15,6 +15,13 @@ namespace :import do
     urls.each{|url| import_from_url(url, selector: '#content')}
   end
 
+  desc 'import gh pages'
+  task :gh, [:repo, :path] => [:environment] do |_, args|
+    client = Octokit::Client.new(:access_token => ENV['GH_TOKEN'])
+    file = client.contents(args.repo, path: args.path)
+    update_article(file.name, Base64.decode64(file.content), file.html_url, 'gihub')
+  end
+
   desc 'import articles by web crawling sites defined in sites.yml'
   task :crawl, [:site] => [:environment] do |_, args|
     sites_file = Rails.root.join('config', 'sites.yml')
@@ -50,19 +57,23 @@ namespace :import do
       return
     end
 
-    content_words = content.split
-    # only index Llm::Api.create.class::MAX_EMBEDDINGS * 0.75 words
-    content = content_words[0..(Llm::Api.create.class::MAX_EMBEDDINGS*0.75)].join(' ')
-    Article.find_or_initialize_by(url: uri).tap do |a|
-      a.update!(title: title, text: content, category: category,indexed_at: DateTime.now)
-      if a.previous_changes['embedding']
-        puts "Stored '#{title}' from #{uri} (#{content.split.size}/#{content_words.size} words)"
-      end
-    end
+    update_article(title, content, uri, category)
   rescue OpenURI::HTTPError => e
     puts "No page at " + uri
   rescue Exception => e
     puts "Error: #{e.message}"
+  end
+
+  def update_article(title, content, uri, category)
+    content_words = content.split
+    # only index Llm::Api.create.class::MAX_EMBEDDINGS * 0.75 words
+    content = content_words[0..(Llm::Api.create.class::MAX_EMBEDDINGS*0.75)].join(' ')
+    Article.find_or_initialize_by(url: uri).tap do |a|
+      a.update!(title: title, text: content, category: category, indexed_at: DateTime.now)
+      if a.previous_changes['embedding']
+        puts "Stored '#{title}' from #{uri} (#{content.split.size}/#{content_words.size} words)"
+      end
+    end
   end
 
 end
