@@ -31,7 +31,7 @@ class Article < ApplicationRecord
 
   def vectorize!
     logger.info "Vectorizing article #{url}"
-    # embedding size from openai is 1536
+    # embedding size from openai is 1536, for ollama it's 4096
     self.embedding = Llm::Ollama.new.embeddings(text)
     self.vectorized_at = DateTime.now
     self.save!

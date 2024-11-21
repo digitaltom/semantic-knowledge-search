@@ -36,7 +36,38 @@ namespace :import do
     end
   end
 
+  desc 'import scc-docs'
+  task :scc_docs, [:site] => [:environment] do |_, args|
+    docs_repo = ENV['DOCS_REPO']
+    deploy_key_location = ENV['deploy_key_location']
+    # clone repo locally
+    `ssh-add #{deploy_key_location}`
+    `git clone #{docs_repo} tmpdocs`
+    files = Dir['tmpdocs/**/**.md']
+    files.each do |readme_file|
+      content = File.read(readme_file)
+      url = build_url_for_github_docs(readme_file)
+      Article.find_or_initialize_by(url: url).tap do |a|
+        content_words = content.split
+        # DO NOT # only index Article::MAX_EMBEDDINGS * 0.75 words
+        # content = content_words[0..(Article::MAX_EMBEDDINGS*0.75)].join(' ')
+        a.update!(title: build_title(readme_file), text: content, category: 'documentation',indexed_at: DateTime.now)
+        if a.previous_changes['embedding']
+          puts "Stored '#{build_title(readme_file)}' from #{url} (#{content.split.size}/#{content_words.size} words)"
+        end
+      end
+    end
+  end
+
   private
+
+  def build_url_for_github_docs(filename)
+    "https://github.com/#{ENV['DOCS_REPO'].scan(/git@github.com:(.+).git/)[0][0]}/blob/master#{filename.gsub('tmpdocs', '')}"
+  end
+
+  def build_title(readme_file)
+    readme_file.gsub('tmpdocs', '').scan(/\/(.+)\./)[0][0].split('/').map(&:capitalize).join(' ')
+  end
 
   def import_from_url(uri, selector: 'article, #content, .chapter, .article, .appendix, main',
                       category: 'doc')
