@@ -19,13 +19,16 @@ class Llm::Ollama
   end
 
   def embeddings(text)
-    @client.embeddings(
+    response = @client.embeddings(
       {
         model: MODEL_EMBEDDINGS,
         prompt: text,
         options: {}
       }
     )
+
+    # embedding size from ollama is 4096
+    response[0]['embedding']
   end
 
 
@@ -40,5 +43,7 @@ class Llm::Ollama
         }
       )
     end
+
+    response[0]['response'].strip.sub(/^[ ?!\.]*/, '')
   end
 end

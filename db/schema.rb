@@ -11,6 +11,28 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2024_11_20_212338) do
+# Could not dump table "article_text_embeddings" because of following StandardError
+#   Unknown type '' for column 'rowid'
+
+
+  create_table "article_text_embeddings_chunks", primary_key: "chunk_id", force: :cascade do |t|
+    t.integer "size", null: false
+    t.binary "validity", null: false
+    t.binary "rowids", null: false
+  end
+
+# Could not dump table "article_text_embeddings_info" because of following StandardError
+#   Unknown type 'ANY' for column 'value'
+
+
+# Could not dump table "article_text_embeddings_rowids" because of following StandardError
+#   Unknown type '' for column 'id'
+
+
+# Could not dump table "article_text_embeddings_vector_chunks00" because of following StandardError
+#   Unknown type '' for column 'rowid'
+
+
   create_table "articles", force: :cascade do |t|
     t.string "url"
     t.string "title"
@@ -23,4 +45,4 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_212338) do
     t.string "category"
     t.index ["url"], name: "index_articles_on_url", unique: true
   end
-
+end
