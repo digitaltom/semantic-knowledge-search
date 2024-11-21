@@ -51,7 +51,8 @@ namespace :import do
     end
 
     content_words = content.split
-    content = content_words[0..1199].join(' ')
+    # only index Article::MAX_EMBEDDINGS * 0.75 words
+    content = content_words[0..(Article::MAX_EMBEDDINGS*0.75)].join(' ')
     Article.find_or_initialize_by(url: uri).tap do |a|
       a.update!(title: title, text: content, category: category,indexed_at: DateTime.now)
       if a.previous_changes['embedding']

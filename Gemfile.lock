@@ -228,6 +228,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    sqlite-vec (0.1.6-x86_64-linux)
     sqlite3 (2.3.0-x86_64-linux-gnu)
     stimulus-rails (1.2.2)
       railties (>= 6.0.0)
@@ -277,6 +278,7 @@ DEPENDENCIES
   selenium-webdriver
   spidr
   sprockets-rails
+  sqlite-vec
   sqlite3
   stimulus-rails
   turbo-rails

@@ -1,5 +1,6 @@
 require 'ruby/openai'
-require 'vss0'
+require 'sqlite_vec'
+require 'vec'
 
 class Article < ApplicationRecord
 
@@ -9,7 +10,10 @@ class Article < ApplicationRecord
   scope :doc, -> { where(category: 'doc') }
 
   after_save :vectorize_on_text_update
-  after_destroy :destroy_vss_article
+  after_destroy :destroy_article_text_embedding
+
+  EMBEDDINGS_TABLE = "article_text_embeddings"
+  MAX_EMBEDDINGS = 1536
 
   def self.vectorize_all(reindex: false)
     articles = reindex ? all : not_vectorized
@@ -21,13 +25,12 @@ class Article < ApplicationRecord
   end
 
   def vectorize_on_text_update
-    if (saved_change_to_text?)
-      vectorize!
-      update_vss_article
-    end
+    vectorize! if saved_change_to_text?
+    update_embeddings_table if saved_change_to_embedding?
   end
 
   def vectorize!
+    logger.info "Vectorizing article #{url}"
     openai = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
     response = openai.embeddings(
       parameters: {
@@ -46,20 +49,24 @@ class Article < ApplicationRecord
     logger.info "Vectorized article '#{title}' with #{embedding.length} keys"
   end
 
-  def vss_article
-    ensure_vss0
-    ActiveRecord::Base.connection.execute("select * from vss_articles where rowid = #{id}")
+  def article_text_embedding
+    ensure_sqlite_vec
+    db = ActiveRecord::Base.connection.raw_connection
+    db.execute("select * from #{EMBEDDINGS_TABLE} where rowid = #{id}")
   end
 
-  def update_vss_article
-    ensure_vss0
-    ActiveRecord::Base.connection.execute("delete from vss_articles where rowid = #{id}")
-    ActiveRecord::Base.connection.execute("insert into vss_articles(rowid, embedding) values(#{id}, '#{embedding}')")
+  def update_embeddings_table
+    db = ActiveRecord::Base.connection.raw_connection
+    ensure_sqlite_vec
+    destroy_article_text_embedding
+    db.execute("INSERT INTO #{EMBEDDINGS_TABLE}(rowid, embedding) VALUES (?, ?)",
+      [id, embedding.pack("f*")])
   end
 
-  def destroy_vss_article
-    ensure_vss0
-    ActiveRecord::Base.connection.execute("delete from vss_articles where rowid = #{id}")
+  def destroy_article_text_embedding
+    ensure_sqlite_vec
+    db = ActiveRecord::Base.connection.raw_connection
+    db.execute("delete from #{EMBEDDINGS_TABLE} where rowid = #{id}")
   end
 
 end
