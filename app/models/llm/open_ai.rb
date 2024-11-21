@@ -57,7 +57,7 @@ class Llm::OpenAi
     response.dig("choices", 0, "message", "content").strip.sub(/^[ ?!\.]*/, '')
   end
 
-  def inspect
+  def self.inspect
     puts("Using OpenAI LLM backend (model: #{MODEL_CHAT})")
   end
 

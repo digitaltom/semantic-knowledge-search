@@ -59,7 +59,7 @@ class Llm::Ollama
     end
   end
 
-  def inspect
+  def self.inspect
     puts("Using Ollama LLM backend (API: #{API_ENDPOINT}, model: #{MODEL_CHAT})")
   end
 

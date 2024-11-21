@@ -1,9 +1,13 @@
 class Llm::Api
   def self.create
+    @llm ||= api_class.new
+  end
+
+  def self.api_class
     if ENV["LLM"] == "ollama"
-      @llm ||= Llm::Ollama.new
+      Llm::Ollama
     else
-      @llm ||= Llm::OpenAi.new
+      Llm::OpenAi
     end
   end
 end
