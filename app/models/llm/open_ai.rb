@@ -32,7 +32,7 @@ class Llm::OpenAi
   end
 
 
-  def chat(prompt, question, articles)
+  def generate(prompt, question, articles)
     # rate limits: https://platform.openai.com/docs/guides/rate-limits/overview
     # playground: https://platform.openai.com/playground
 

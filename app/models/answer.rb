@@ -9,11 +9,11 @@ class Answer
 
   def generate
     # Note: limiting the article text because of max context length of 4096 tokens (incl. the 400 from the response)
-    article_context = @articles[0..2].map(&:text).join(' ')
+    article_context = @articles[0..3].map(&:text).join(' ')
 
     #Rails.logger.info "Article has #{@article.text.split.size} words, using 900."
     prompt =
-    "You are an AI assistant answering customer requests based on performing a
+    "You are an knowledge search assistant answering customer requests based on performing a
     semantic search over documentation and knowledge base articles.
     You will answer in a helpful and friendly manner.
     You will be provided information after the keyword [Articles] below.
@@ -23,8 +23,8 @@ class Answer
     'I'm sorry Dave, I don't know.'
     [Articles]
     #{article_context}"
-    
-    Llm::Api.create.chat(prompt, @question.question, @articles)
+
+    Llm::Api.create.generate(prompt, @question.question, @articles)
   end
 
 end
