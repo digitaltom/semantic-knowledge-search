@@ -31,19 +31,8 @@ class Article < ApplicationRecord
 
   def vectorize!
     logger.info "Vectorizing article #{url}"
-    openai = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
-    response = openai.embeddings(
-      parameters: {
-        model: "text-embedding-ada-002",
-        input: text
-      }
-    )
-    unless response['data']
-      Rails.logger.error(response.inspect)
-      raise Exception.new("Vectorizing article #{id} failed")
-    end
     # embedding size from openai is 1536
-    self.embedding = response['data'][0]['embedding']
+    self.embedding = Llm::OpenAi.new.embeddings(text)
     self.vectorized_at = DateTime.now
     self.save!
     logger.info "Vectorized article '#{title}' with #{embedding.length} keys"

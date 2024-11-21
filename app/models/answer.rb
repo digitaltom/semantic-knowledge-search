@@ -2,8 +2,6 @@ require 'ruby/openai'
 
 class Answer
 
-  MODEL = "gpt-4o-mini" # https://openai.com/pricing
-
   def initialize(question, articles)
     @question = question
     @articles = articles
@@ -26,29 +24,7 @@ class Answer
     [Articles]
     #{article_context}"
     
-		openai = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
-    # rate limits: https://platform.openai.com/docs/guides/rate-limits/overview
-    # playground: https://platform.openai.com/playground
-
-    response = Rails.cache.fetch("chat_#{@question.question}/#{@articles.map(&:id).join(',')}", expires_in: 48.hours) do
-      openai.chat(
-        parameters: {
-          model: MODEL,
-          messages: [
-            { role: 'system', content: prompt },
-            { role: "user", content: @question.question}],
-          temperature: 0.2, # low temperature = very high probability response
-          max_tokens: 300,
-        }
-      )
-    end
-
-    unless response['choices']
-      Rails.logger.error(response.inspect)
-      raise Exception.new("Generating answer failed: " + response['error'].inspect)
-    end
-    # strip punctuation from the beginning of the string if it was completed.
-    response.dig("choices", 0, "message", "content").strip.sub(/^[ ?!\.]*/, '')
+    Llm::OpenAi.new.chat(prompt, @question.question, @articles)
   end
 
 end

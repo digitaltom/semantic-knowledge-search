@@ -104,12 +104,19 @@ GEM
       railties (>= 3.2)
     drb (2.2.1)
     erubi (1.13.0)
-    faraday (2.7.10)
-      faraday-net_http (>= 2.0, < 3.1)
-      ruby2_keywords (>= 0.0.4)
+    ethon (0.16.0)
+      ffi (>= 1.15.0)
+    faraday (2.12.1)
+      faraday-net_http (>= 2.0, < 3.5)
+      json
+      logger
     faraday-multipart (1.0.4)
       multipart-post (~> 2)
     faraday-net_http (3.0.2)
+    faraday-typhoeus (1.1.0)
+      faraday (~> 2.0)
+      typhoeus (~> 1.4)
+    ffi (1.17.0-x86_64-linux-gnu)
     globalid (1.2.1)
       activesupport (>= 6.1)
     haml (6.1.2)
@@ -124,6 +131,7 @@ GEM
       reline (>= 0.4.2)
     jsbundling-rails (1.3.0)
       railties (>= 6.0.0)
+    json (2.8.2)
     logger (1.6.1)
     loofah (2.23.1)
       crass (~> 1.0.2)
@@ -151,6 +159,10 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
+    ollama-ai (1.3.0)
+      faraday (~> 2.10)
+      faraday-typhoeus (~> 1.1)
+      typhoeus (~> 1.4, >= 1.4.1)
     psych (5.2.0)
       stringio
     public_suffix (5.0.1)
@@ -211,7 +223,6 @@ GEM
     ruby-openai (5.1.0)
       faraday (>= 1)
       faraday-multipart (>= 1)
-    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     securerandom (0.3.2)
     selenium-webdriver (4.17.0)
@@ -241,8 +252,12 @@ GEM
       actionpack (>= 6.0.0)
       activejob (>= 6.0.0)
       railties (>= 6.0.0)
+    typhoeus (1.4.1)
+      ethon (>= 0.9.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2024.2)
+      tzinfo (>= 1.0.0)
     useragent (0.16.10)
     webdrivers (5.2.0)
       nokogiri (~> 1.6)
@@ -270,6 +285,7 @@ DEPENDENCIES
   haml
   jsbundling-rails
   nokogiri
+  ollama-ai
   puma (~> 6.4)
   rails (~> 7.1)
   rails_autolink

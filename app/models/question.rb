@@ -6,31 +6,20 @@ class Question
 
   attr_reader :question
 
-  MODEL = "text-embedding-ada-002" # (Pricing: Ada $0.0004 / 1K tokens, https://openai.com/pricing)
-
   def initialize(question)
     @question = question
   end
 
   def embedding
     Rails.cache.fetch("question_embedding_#{question}", expires_in: 48.hours) do
-      openai = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
-      response = openai.embeddings(
-        parameters: {
-          model: MODEL,
-          input: @question
-        }
-      )
-      unless response['data']
-        Rails.logger.error(response.inspect)
-        raise Exception.new("Vectorizing question failed")
-      end
-      embedding = response['data'][0]['embedding']
+      embedding = Llm::OpenAi.new.embeddings(question)
       Rails.logger.info("Generated embedding for '#{@question}' (#{embedding.size} vectors)")
       embedding
     end
   end
 
+  # With vss=true, semantic search is using the sqlite3 vector similarity query.
+  # With vss=false it falls back to cosine_similarity search over all articles
   def related_articles(vss: true)
     if vss
       Rails.cache.fetch("articles_#{embedding}", expires_in: 48.hours) do

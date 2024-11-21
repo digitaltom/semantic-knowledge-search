@@ -49,11 +49,14 @@ gem "haml"
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'byebug'
 gem 'awesome_print'
-gem 'ruby-openai'
 gem 'nokogiri'
 gem 'cosine-similarity'
 gem 'rails_autolink'
 gem 'spidr'
+
+# llm interfaces
+gem 'ruby-openai'
+gem 'ollama-ai'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
