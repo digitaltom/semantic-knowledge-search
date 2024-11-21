@@ -8,6 +8,10 @@ class Llm::OpenAi
   MODEL_CHAT = "gpt-4o-mini" # https://openai.com/pricing
   TOKEN = ENV['OPENAI_API_KEY']
 
+  # Number of embeddings returned by the LLM API
+  # Needs to be aligned with the embeddings column size
+  MAX_EMBEDDINGS = 1536
+
   def initialize
     @client = OpenAI::Client.new(access_token: TOKEN)
   end
@@ -24,7 +28,6 @@ class Llm::OpenAi
       raise Exception.new("Vectorizing failed")
     end
 
-    # embedding size from openai is 1536
     response['data'][0]['embedding']
   end
 
@@ -52,6 +55,10 @@ class Llm::OpenAi
     end
     # strip punctuation from the beginning of the string if it was completed.
     response.dig("choices", 0, "message", "content").strip.sub(/^[ ?!\.]*/, '')
+  end
+
+  def inspect
+    puts("Using OpenAI LLM backend (model: #{MODEL_CHAT})")
   end
 
 end

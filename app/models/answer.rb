@@ -16,15 +16,15 @@ class Answer
     "You are an AI assistant answering customer requests based on performing a
     semantic search over documentation and knowledge base articles.
     You will answer in a helpful and friendly manner.
-    You will be provided information under the [Articles] section.
-    You will answer the customer's requests only based on information from the article.
-    All of your knowledge only comes from the articles content.
-    If the customer's request is not answered by the articles you will respond with
+    You will be provided information after the keyword [Articles] below.
+    You will answer the customer's requests only based on information from this chat.
+    All of your knowledge only comes from this chat message.
+    If the customer's request is not answered below, you will respond with
     'I'm sorry Dave, I don't know.'
     [Articles]
     #{article_context}"
     
-    Llm::Ollama.new.chat(prompt, @question.question, @articles)
+    Llm::Api.create.chat(prompt, @question.question, @articles)
   end
 
 end
