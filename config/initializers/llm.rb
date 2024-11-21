@@ -1,3 +1,3 @@
 Rails.application.config.after_initialize do
-  Llm::Api.create.inspect
+  Llm::Api.api_class.inspect
 end
