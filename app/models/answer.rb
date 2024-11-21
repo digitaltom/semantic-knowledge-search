@@ -25,6 +25,7 @@ class Answer
     #{article_context}"
     
     Llm::OpenAi.new.chat(prompt, @question.question, @articles)
+    #Llm::Ollama.new.chat(prompt, @question.question, @articles)
   end
 
 end
