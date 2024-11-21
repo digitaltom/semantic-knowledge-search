@@ -29,29 +29,6 @@ class Article < ApplicationRecord
     update_embeddings_table if saved_change_to_embedding?
   end
 
-  require 'ollama-ai'
-
-  client = Ollama.new(
-    credentials: {
-      address: 'https://suse-ai.openplatform.suse.com/ollama',
-      bearer_token: ENV['OLLAMA_BEARER_TOKEN']
-    },
-    options: { server_sent_events: true }
-  )
-
-  # chat
-  result = client.generate(
-    { model: 'llama3.1:8b',
-      prompt: 'Hi!',
-      stream: false }
-  )
-
-  # embeddings
-  embeddings = client.embeddings(
-    model: 'llama3.1:8b',
-    prompt: 'Es gibt eine Zugverbindung zwischen Nürnberg und Wien'
-  )
-
   def vectorize!
     logger.info "Vectorizing article #{url}"
     # embedding size from openai is 1536
