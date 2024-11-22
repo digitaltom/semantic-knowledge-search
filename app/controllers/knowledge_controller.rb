@@ -38,6 +38,7 @@ class KnowledgeController < ApplicationController
     time = Benchmark.measure {
       @answer = Answer.new(question, @articles).generate
     }
+    @md_parser = Redcarpet::Markdown.new(Redcarpet::Render::HTML, extensions = {})
     logger.info("Generating answer took #{time.total.round(2)}s")
     render partial: 'answer'
   end

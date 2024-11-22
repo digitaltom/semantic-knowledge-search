@@ -5,7 +5,7 @@
         %h4 What does the Geeko say?
         %i.bi.bi-quote.quote-open
         .answer<
-          = auto_link(@answer)
+          = @md_parser.render(@answer).html_safe
         %i.bi.bi-quote.quote-close
 
   - else # skeleton loader

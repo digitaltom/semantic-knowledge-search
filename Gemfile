@@ -54,6 +54,7 @@ gem 'cosine-similarity'
 # views
 gem "haml"
 gem 'rails_autolink'
+gem 'redcarpet'
 
 # crawling content
 gem 'spidr'
