@@ -3,8 +3,14 @@ require 'benchmark'
 class KnowledgeController < ApplicationController
 
   def index
-    @kb_count = Article.kb.count
-    @doc_count = Article.doc.count
+    @article_counts = {
+      'SUSE knowledge base articles': Article.kb.count,
+      'documentation pages': Article.doc.count,
+      'Trello cards': Article.trello.count,
+      'Github pages': Article.gh.count,
+    }
+    @demo_question_1 = ENV["Q1"] || "How to use Yast?"
+    @demo_question_2 = ENV["Q2"] || "How can I see inactive systems in SCC?"
     @question = params[:q]
   end
 

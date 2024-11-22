@@ -17,10 +17,12 @@
                 %i.bi.bi-search
 
       .info.m-2
-        = "Geeko has insights into #{@kb_count} SUSE Knowledge Base articles and #{@doc_count} SUSE Documentation pages."
+        Geeko has insights into:
+        = @article_counts.keys.map{|cat| "#{@article_counts[cat]} #{cat}" if @article_counts[cat] > 0 }.compact.join(', ')
+
         %br
         = "Try it out! Ask him about "
-        %i= link_to "'How to use Yast?'", root_path(q: 'How to use Yast?')
+        %i= link_to "'#{@demo_question_1}'", root_path(q: @demo_question_1)
         = " or "
-        %i= link_to "'How can I see inactive systems in SCC?'", root_path(q: 'How can I see inactive systems in SCC?')
+        %i= link_to "'#{@demo_question_2}'", root_path(q: @demo_question_2)
         = "."

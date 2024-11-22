@@ -19,7 +19,7 @@ namespace :import do
   task :gh, [:repo, :path] => [:environment] do |_, args|
     client = Octokit::Client.new(:access_token => ENV['GH_TOKEN'])
     file = client.contents(args.repo, path: args.path)
-    update_article(file.name, Base64.decode64(file.content), file.html_url, 'gihub')
+    update_article(file.name, Base64.decode64(file.content), file.html_url, 'github')
   end
 
   desc 'import articles by web crawling sites defined in sites.yml'

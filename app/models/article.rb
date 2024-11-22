@@ -8,6 +8,8 @@ class Article < ApplicationRecord
   scope :vectorized, -> { where.not(embedding: nil) }
   scope :kb, -> { where(category: 'kb') }
   scope :doc, -> { where(category: 'doc') }
+  scope :gh, -> { where(category: 'github') }
+  scope :trello, -> { where(category: 'trello') }
 
   after_save :vectorize_on_text_update
   after_destroy :destroy_article_text_embedding
