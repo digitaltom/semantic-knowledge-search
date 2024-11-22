@@ -7,6 +7,7 @@
           - article = Article.find(@results.first['article_id'])
           = image_tag ("icons/#{article.category}.png")
           = link_to article.title, article.url
+          = distance_to_icon(@results.first['distance'])
 
         %h4 More related articles
         %ul
@@ -14,8 +15,8 @@
             - article = Article.find(r['article_id'])
             %li
               = image_tag ("icons/#{article.category}.png")
-              = link_to article.title, article.url
-            /= "(#{r[:similarity]}%)"
+              = link_to article.title.truncate(55, omission: '...'), article.url
+              = distance_to_icon(r['distance'])
             /%small= link_to "(use this)", knowledge_ask_path(question: @question.question, article_id: r[:article_id])
 
   - else # skeleton loader

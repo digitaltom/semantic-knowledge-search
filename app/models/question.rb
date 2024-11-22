@@ -44,9 +44,9 @@ class Question
         similarity = cosine_similarity(embedding, article.embedding) * 100
         similarity -= 2 if article.file =~ /kb/
         similarity = similarity.round(2)
-        results << {'similarity' => similarity, 'article_id' => article.id}
+        results << {'distance' => similarity, 'article_id' => article.id}
       end
-      results.sort_by{|r| r['similarity']}.reverse[0..4]
+      results.sort_by{|r| r['distance']}.reverse[0..4]
     end
   end
 
