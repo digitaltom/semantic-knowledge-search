@@ -59,6 +59,7 @@ gem 'redcarpet'
 # crawling content
 gem 'spidr'
 gem 'octokit'
+gem 'ruby-trello'
 
 # llm interfaces
 gem 'ruby-openai'

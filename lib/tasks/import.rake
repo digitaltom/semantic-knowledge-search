@@ -24,6 +24,14 @@ namespace :import do
     update_article(name, content, file.html_url, 'github')
   end
 
+  desc 'import trello boards'
+  task :trello, [:board_id] => [:environment] do |_, args|
+    cards = Trello::Board.find(args.board_id).cards.reject(&:closed?)
+    cards.each do |card|
+      update_article("#{card.board.name}: #{card.name}", card.desc, card.url, 'trello')
+    end
+  end
+
   desc 'import articles by web crawling sites defined in sites.yml'
   task :crawl, [:site] => [:environment] do |_, args|
     sites_file = Rails.root.join('config', 'sites.yml')
