@@ -20,7 +20,8 @@ namespace :import do
     client = Octokit::Client.new(:access_token => ENV['GH_TOKEN'])
     file = client.contents(args.repo, path: args.path)
     name = "#{args.repo} - #{file.name}"
-    update_article(name, Base64.decode64(file.content), file.html_url, 'github')
+    content = Base64.decode64(file.content).force_encoding("UTF-8")
+    update_article(name, content, file.html_url, 'github')
   end
 
   desc 'import articles by web crawling sites defined in sites.yml'
@@ -71,7 +72,7 @@ namespace :import do
     # only index Llm::Api.create.class::MAX_EMBEDDINGS * 0.75 words
     content = content_words[0..(Llm::Api.create.class::MAX_EMBEDDINGS*0.75)].join(' ')
     Article.find_or_initialize_by(url: uri).tap do |a|
-      a.update!(title: title, text: content, category: category, indexed_at: DateTime.now)
+      a.update!(title: title, text: title + '\n' + content, category: category, indexed_at: DateTime.now)
       if a.previous_changes['embedding']
         puts "Stored '#{title}' from #{uri} (#{content.split.size}/#{content_words.size} words)"
       end

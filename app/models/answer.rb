@@ -9,7 +9,7 @@ class Answer
 
   def generate
     # Note: limiting the article text because of max context length of 4096 tokens (incl. the 400 from the response)
-    article_context = @articles[0..3].map(&:text).join(' ')
+    article_context = @articles[0..2].map(&:text).join(' ')
 
     #Rails.logger.info "Article has #{@article.text.split.size} words, using 900."
     prompt =
