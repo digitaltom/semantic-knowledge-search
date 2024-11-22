@@ -5,13 +5,16 @@
         %h4 Top article
         %p
           - article = Article.find(@results.first['article_id'])
+          = image_tag ("icons/#{article.category}.png")
           = link_to article.title, article.url
 
         %h4 More related articles
         %ul
           - @results[1..4].each do |r|
             - article = Article.find(r['article_id'])
-            %li= link_to article.title, article.url
+            %li
+              = image_tag ("icons/#{article.category}.png")
+              = link_to article.title, article.url
             /= "(#{r[:similarity]}%)"
             /%small= link_to "(use this)", knowledge_ask_path(question: @question.question, article_id: r[:article_id])
 

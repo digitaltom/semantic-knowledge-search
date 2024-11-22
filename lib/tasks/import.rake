@@ -9,17 +9,18 @@ namespace :import do
 
   desc 'import knowledge base articles'
   task :kb, [:path] => [:environment] do |_, args|
-    KB_IDS = (20_000..21_034).map{|id| id.to_s.rjust(9, '0')}
-    urls = KB_IDS.map{|id| "https://www.suse.com/support/kb/doc/?id=#{id}"}
+    KB_IDS = (20_000..21_625).map{|id| id.to_s.rjust(9, '0')}
+    urls = KB_IDS.map{|id| "https://www.suse.com/support/kb/doc/?id=#{id}"}.reverse
     urls = [args[:path]] if args[:path]
-    urls.each{|url| import_from_url(url, selector: '#content')}
+    urls.each{|url| import_from_url(url, selector: '#content', category: 'kb')}
   end
 
   desc 'import gh pages'
   task :gh, [:repo, :path] => [:environment] do |_, args|
     client = Octokit::Client.new(:access_token => ENV['GH_TOKEN'])
     file = client.contents(args.repo, path: args.path)
-    update_article(file.name, Base64.decode64(file.content), file.html_url, 'github')
+    name = "#{args.repo} - #{file.name}"
+    update_article(name, Base64.decode64(file.content), file.html_url, 'github')
   end
 
   desc 'import articles by web crawling sites defined in sites.yml'
@@ -51,6 +52,7 @@ namespace :import do
     doc = Nokogiri::HTML(file)
     content = doc.css(selector).text.squeeze(" \n")
     title = doc.css('title').text
+    title.gsub!(' | Support | SUSE', '')
 
     if !content || content == ""
       puts "No content found in uri, skipping..."
