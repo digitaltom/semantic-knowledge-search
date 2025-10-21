@@ -23,4 +23,4 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_212338) do
     t.string "category"
     t.index ["url"], name: "index_articles_on_url", unique: true
   end
-
+end
